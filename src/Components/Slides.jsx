@@ -22,8 +22,8 @@ function Slides(props, ref) {
             />
           </figure>
           <div className="card-body flex flex-row">
-            <h2 className="card-title text-md">
-              Spiderman <br /> No Way Home
+            <h2 className="card-title text-lg text-primary">
+              Spiderman: <br /> No Way Home
             </h2>
 
             <div className="card-actions justify-end flex-1 lg:static absolute top-1/4 left-1/4">
@@ -56,15 +56,17 @@ function Slides(props, ref) {
           breakpoints={{
             1024: {
               slidesPerView: 4,
+              spaceBetween: 30,
             },
             768: {
               slidesPerView: 3,
+              spaceBetween: 30,
             },
           }}
           modules={[Navigation, Parallax]}
           navigation
           parallax={true}
-          spaceBetween={30}
+          spaceBetween={20}
           slidesPerView={2}
           onSlideChange={() => console.log("slide change")}
           onSwiper={(swiper) => console.log(swiper)}

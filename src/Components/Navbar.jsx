@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <div className="navbar bg-base-100 p-4 sm:px-20 fixed top-0 left-0 right-0 z-50">
@@ -45,9 +46,12 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <a className="btn normal-case text-2xl p-2 bg-transparent border-none hover:bg-transparent font-bold text-accent">
+        <Link
+          to="/Movie-Web-Site/"
+          className="btn normal-case text-2xl p-2 bg-transparent border-none hover:bg-transparent font-bold text-neutral-content"
+        >
           345Movie
-        </a>
+        </Link>
       </div>
       <div className="navbar-center font-bold hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -80,8 +84,12 @@ const Navbar = () => {
         />
       </div>
       <div className="navbar-end gap-2 hidden sm:flex">
-        <a className="btn btn-ghost">LogIn</a>
-        <a className="btn btn-primary">SignUp</a>
+        <Link className="btn btn-ghost" to="/Movie-Web-Site/LogInPage">
+          LogIn
+        </Link>
+        <Link className="btn btn-primary" to="/Movie-Web-Site/SignUpPage">
+          SignUp
+        </Link>
       </div>
     </div>
   );
