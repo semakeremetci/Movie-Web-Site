@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 p-4 sm:px-20 fixed top-0 left-0 right-0 z-50">
+    <div className="navbar bg-base-100 p-4 sm:px-24 w-screen flex-col items-start sm:flex-row fixed top-0 left-0 right-0 z-50">
       <div className="navbar-start ">
         <div className="dropdown sm:hidden z-50">
-          <label tabIndex={0} className="btn btn-ghost p-2 text-accent">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost p-0 text-neutral-content"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -39,17 +42,35 @@ const Navbar = () => {
             </li>
 
             <li className="place-content-start">
-              <a className="btn btn-primary w-24 btn-sm">LogIn</a>
+              <Link
+                to="/Movie-Web-Site/LogInPage"
+                className="btn btn-primary w-full btn-sm"
+              >
+                LogIn
+              </Link>
             </li>
-            <li className="place-content-start">
-              <a className="btn btn-primary w-24 btn-sm">SignUp</a>
+            <li className="place-content-start mx-1s">
+              <Link
+                to="/Movie-Web-Site/SignUpPage"
+                className="btn btn-primary w-full btn-sm"
+              >
+                SignUp
+              </Link>
             </li>
           </ul>
         </div>
         <Link
           to="/Movie-Web-Site/"
-          className="btn normal-case text-2xl p-2 bg-transparent border-none hover:bg-transparent font-bold text-neutral-content"
+          className="btn normal-case text-xl sm:text-2xl p-2 bg-transparent border-none hover:bg-transparent font-bold text-neutral-content"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 0 512 512"
+            fill="rgb(255, 231, 163)"
+          >
+            <path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 32a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm-96-32a96 96 0 1 0 192 0 96 96 0 1 0 -192 0zM96 240c0-35 17.5-71.1 45.2-98.8S205 96 240 96c8.8 0 16-7.2 16-16s-7.2-16-16-16c-45.4 0-89.2 22.3-121.5 54.5S64 194.6 64 240c0 8.8 7.2 16 16 16s16-7.2 16-16z" />
+          </svg>
           345Movie
         </Link>
       </div>
@@ -76,11 +97,11 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div>
+      <div className="w-full sm:w-1/2">
         <input
           type="text"
           placeholder="Search Movie"
-          className="input ml-3 input-ghost bg-base-300 flex-end  focus:outline-none w-full max-w-xs"
+          className="input w-full  sm:ml-3 input-ghost bg-base-300 flex-end  focus:outline-none"
         />
       </div>
       <div className="navbar-end gap-2 hidden sm:flex">
