@@ -43,11 +43,11 @@ function ForgotPassword() {
             </div>
 
             <div className="form-control mt-6 gap-2 ">
-              <NavLink to="/Movie-Web-Site/home" className="flex">
+              <NavLink to="/Home" className="flex">
                 <button className="btn btn-primary grow">Reset Password</button>
               </NavLink>
               <NavLink
-                to="/Movie-Web-Site/"
+                to="/"
                 className="label-text-alt link link-hover text-center flex-none"
               >
                 Go back to login

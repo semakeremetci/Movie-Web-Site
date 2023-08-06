@@ -6,7 +6,7 @@ import App from "./App.jsx";
 // import Home from "./pages/Home.jsx";
 // import LogInPage from "./pages/LogInPage.jsx";
 // import SignUpPage from "./pages/SignUpPage.jsx";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 // const router = createBrowserRouter([
 //   {
@@ -32,8 +32,8 @@ import { BrowserRouter } from "react-router-dom";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {/* <RouterProvider router={router} /> */}
-    <BrowserRouter>
+    <HashRouter>
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );

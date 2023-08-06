@@ -25,7 +25,7 @@ function LogInPage() {
           <div>
             <NavLink
               className="btn btn-ghost text-neutral-content text-xl hover:bg-transparent"
-              to="/Movie-Web-Site/"
+              to="/"
             >
               Sign Up
             </NavLink>
@@ -56,7 +56,7 @@ function LogInPage() {
               />
               <label className="label">
                 <NavLink
-                  to={"/Movie-Web-Site/ForgotPassword"}
+                  to={"/ForgotPassword"}
                   className="label-text-alt link link-hover"
                 >
                   Forgot password?
@@ -64,11 +64,11 @@ function LogInPage() {
               </label>
             </div>
             <div className="form-control mt-6 gap-2 ">
-              <NavLink to="/Movie-Web-Site/Home" className="flex">
+              <NavLink to="/Home" className="flex">
                 <button className="btn btn-primary grow">Log in</button>
               </NavLink>
               <NavLink
-                to="/Movie-Web-Site/"
+                to="/"
                 className="label-text-alt link link-hover text-center flex-none"
               >
                 Don't have an account? Register

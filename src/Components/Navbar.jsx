@@ -42,18 +42,12 @@ const Navbar = () => {
             </li>
 
             <li className="place-content-start">
-              <Link
-                to="/Movie-Web-Site/LoginPage"
-                className="btn btn-primary w-full btn-sm"
-              >
+              <Link to="/LoginPage" className="btn btn-primary w-full btn-sm">
                 Log In
               </Link>
             </li>
             <li className="place-content-start mx-1s">
-              <Link
-                to="/Movie-Web-Site/"
-                className="btn btn-primary w-full btn-sm"
-              >
+              <Link to="/" className="btn btn-primary w-full btn-sm">
                 Sign Up
               </Link>
             </li>
@@ -102,10 +96,10 @@ const Navbar = () => {
         />
       </div>
       <div className="navbar-end gap-2 hidden sm:flex">
-        <Link className="btn btn-ghost" to="/Movie-Web-Site/LoginPage">
+        <Link className="btn btn-ghost" to="/LoginPage">
           Log In
         </Link>
-        <Link className="btn btn-primary" to="/Movie-Web-Site/">
+        <Link className="btn btn-primary" to="/">
           Sign Up
         </Link>
       </div>
