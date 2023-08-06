@@ -36,10 +36,10 @@ function Home() {
     <div>
       <Navbar></Navbar>
       <SideBar scrollToSection={scrollToSection}></SideBar>
-      <HeroSection id="heroSection" ref={heroSectionRef}></HeroSection>
-      <Slides h1={"Popular"} ref={popularSlidesRef}></Slides>
-      <Slides h1={"Top Rated"} ref={topRatedSlidesRef}></Slides>
-      <Slides h1={"Up Coming"} ref={upComingSlidesRef}></Slides>
+      <HeroSection ref={heroSectionRef}></HeroSection>
+      <Slides ref={popularSlidesRef} h1={"Popular"}></Slides>
+      <Slides ref={topRatedSlidesRef} h1={"Top Rated"}></Slides>
+      <Slides ref={upComingSlidesRef} h1={"Up Coming"}></Slides>
       <Footer></Footer>
     </div>
   );

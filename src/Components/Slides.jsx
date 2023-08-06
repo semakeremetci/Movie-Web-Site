@@ -68,8 +68,8 @@ function Slides(props, ref) {
           parallax={true}
           spaceBetween={20}
           slidesPerView={2}
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
+          // onSlideChange={() => console.log("slide change")}
+          // onSwiper={(swiper) => console.log(swiper)}
         >
           {createSlide()}
           {createSlide()}

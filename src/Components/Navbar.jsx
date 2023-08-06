@@ -43,26 +43,23 @@ const Navbar = () => {
 
             <li className="place-content-start">
               <Link
-                to="/Movie-Web-Site/LogInPage"
+                to="/Movie-Web-Site/LoginPage"
                 className="btn btn-primary w-full btn-sm"
               >
-                LogIn
+                Log In
               </Link>
             </li>
             <li className="place-content-start mx-1s">
               <Link
-                to="/Movie-Web-Site/SignUpPage"
+                to="/Movie-Web-Site/"
                 className="btn btn-primary w-full btn-sm"
               >
-                SignUp
+                Sign Up
               </Link>
             </li>
           </ul>
         </div>
-        <Link
-          to="/Movie-Web-Site/"
-          className="btn normal-case text-xl sm:text-2xl p-2 bg-transparent border-none hover:bg-transparent font-bold text-neutral-content"
-        >
+        <div className="btn normal-case text-xl sm:text-2xl p-2 bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="1em"
@@ -72,7 +69,7 @@ const Navbar = () => {
             <path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 32a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm-96-32a96 96 0 1 0 192 0 96 96 0 1 0 -192 0zM96 240c0-35 17.5-71.1 45.2-98.8S205 96 240 96c8.8 0 16-7.2 16-16s-7.2-16-16-16c-45.4 0-89.2 22.3-121.5 54.5S64 194.6 64 240c0 8.8 7.2 16 16 16s16-7.2 16-16z" />
           </svg>
           345Movie
-        </Link>
+        </div>
       </div>
       <div className="navbar-center font-bold hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -105,11 +102,11 @@ const Navbar = () => {
         />
       </div>
       <div className="navbar-end gap-2 hidden sm:flex">
-        <Link className="btn btn-ghost" to="/Movie-Web-Site/LogInPage">
-          LogIn
+        <Link className="btn btn-ghost" to="/Movie-Web-Site/LoginPage">
+          Log In
         </Link>
-        <Link className="btn btn-primary" to="/Movie-Web-Site/SignUpPage">
-          SignUp
+        <Link className="btn btn-primary" to="/Movie-Web-Site/">
+          Sign Up
         </Link>
       </div>
     </div>
