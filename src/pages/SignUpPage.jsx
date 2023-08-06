@@ -94,7 +94,7 @@ function SignUpPage() {
         </button>
       </ConditionalLink> */}
 
-          <NavLink to="/Movie-Web-Site/home" className="flex">
+          <NavLink to="/Movie-Web-Site/Home" className="flex">
             <button onClick={handleClick} className="btn btn-primary grow">
               Sign Up
             </button>
