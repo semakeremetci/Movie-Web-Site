@@ -64,7 +64,7 @@ function LogInPage() {
               </label>
             </div>
             <div className="form-control mt-6 gap-2 ">
-              <NavLink to="/Movie-Web-Site/home" className="flex">
+              <NavLink to="/Movie-Web-Site/Home" className="flex">
                 <button className="btn btn-primary grow">Log in</button>
               </NavLink>
               <NavLink
