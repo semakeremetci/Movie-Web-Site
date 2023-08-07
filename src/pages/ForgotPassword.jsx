@@ -47,7 +47,7 @@ function ForgotPassword() {
                 <button className="btn btn-primary grow">Reset Password</button>
               </NavLink>
               <NavLink
-                to="/"
+                to="/LoginPage"
                 className="label-text-alt link link-hover text-center flex-none"
               >
                 Go back to login

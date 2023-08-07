@@ -1,7 +1,36 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { auth } from "../firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 function LogInPage() {
+  const loginEmailRef = useRef();
+  const loginPasswordRef = useRef();
+  const [loginError, setLoginError] = useState(null);
+  const [emptyFieldError, setEmptyFieldError] = useState(false);
+  const navigateLogin = useNavigate();
+
+  const handleLogin = () => {
+    let loginEmail = loginEmailRef.current.value;
+    let loginPassword = loginPasswordRef.current.value;
+    if (loginEmail && loginPassword) {
+      signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          navigateLogin("/Home");
+          console.log("logged in successfully");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          setLoginError(errorCode);
+          setEmptyFieldError(false);
+        });
+    } else {
+      setEmptyFieldError(true);
+      setLoginError(null);
+    }
+  };
   return (
     <div
       style={{
@@ -34,7 +63,43 @@ function LogInPage() {
 
         <div className="card w-full sm:w-5/6 md:w-3/5 lg:w-96  shadow-2xl bg-base-100">
           <div className="card-body">
-            <p className="text-center m-4">Welcome! Please Log In</p>
+            {emptyFieldError && (
+              <div className="alert alert-error flex bg-red-700 py-1 px-2 text-sm">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+                <span>Email or Password can not be empty.</span>
+              </div>
+            )}
+            {loginError && (
+              <div className="alert alert-error flex bg-red-700 p-2 px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+                <span>{loginError}</span>
+              </div>
+            )}
+            <p className="text-center m-1">Welcome! Please Log In</p>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -42,7 +107,8 @@ function LogInPage() {
               <input
                 type="text"
                 placeholder="Your Email"
-                className="input input-bordered"
+                className="input input-bordered text-primary"
+                ref={loginEmailRef}
               />
             </div>
             <div className="form-control">
@@ -52,7 +118,8 @@ function LogInPage() {
               <input
                 type="text"
                 placeholder="Your Password"
-                className="input input-bordered"
+                className="input input-bordered text-primary"
+                ref={loginPasswordRef}
               />
               <label className="label">
                 <NavLink
@@ -64,9 +131,9 @@ function LogInPage() {
               </label>
             </div>
             <div className="form-control mt-6 gap-2 ">
-              <NavLink to="/Home" className="flex">
-                <button className="btn btn-primary grow">Log in</button>
-              </NavLink>
+              <button onClick={handleLogin} className="btn btn-primary grow">
+                Log in
+              </button>
               <NavLink
                 to="/"
                 className="label-text-alt link link-hover text-center flex-none"

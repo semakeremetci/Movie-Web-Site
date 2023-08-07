@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 // import { onAuthStateChanged } from "firebase/auth";
@@ -10,16 +10,30 @@ function SignUpPage() {
   const passwordRef = useRef();
   // const [authUser, setAuthUser] = useState(null);
   const [isCardShown, setIsCardShown] = useState(false);
+  const [signupError, setSignupError] = useState(null);
+  const [emptyError, setEmptyError] = useState(false);
+  const navigate = useNavigate();
 
-  const handleClick = async () => {
-    try {
-      await createUserWithEmailAndPassword(
-        auth,
-        emailRef.current.value,
-        passwordRef.current.value
-      );
-    } catch (err) {
-      console.log(err);
+  const handleSignup = () => {
+    let email = emailRef.current.value;
+    let password = passwordRef.current.value;
+    let userName = userNameRef.current.value;
+    if (email && password && userName) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          navigate("/Home");
+          console.log("account created successfully");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          setSignupError(errorCode);
+          setEmptyError(false);
+        });
+    } else {
+      setEmptyError(true);
+      setSignupError(null);
     }
   };
 
@@ -36,19 +50,50 @@ function SignUpPage() {
   //     listen();
   //   };
   // }, []);
-
-  // function ConditionalLink({ children, condition, ...props }) {
-  //   return !!condition && props.to ? (
-  //     <Link {...props}>{children}</Link>
-  //   ) : (
-  //     <>{children}</>
-  //   );
-  // }
+  const showSignupCard = () => {
+    setIsCardShown(true);
+  };
 
   const signupCard = (
-    <div className="card w-full sm:w-5/6 md:w-3/5 lg:w-96 shadow-2xl bg-base-100">
+    <div className="card w-full sm:w-5/6 md:w-3/5 lg:w-96 shadow-2xl bg-base-100 mt-8">
       <div className="card-body">
-        <p className="text-center m-2">Welcome! Please Sign Up</p>
+        {emptyError && (
+          <div className="alert alert-error flex bg-red-700 py-1 px-2 text-sm">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <span>Username, Email or Password can not be empty.</span>
+          </div>
+        )}
+        {signupError && (
+          <div className="alert alert-error flex bg-red-700 p-2 px-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <span>{signupError}</span>
+          </div>
+        )}
+        <p className="text-center m-1">Welcome! Please Sign Up</p>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Username</span>
@@ -56,7 +101,7 @@ function SignUpPage() {
           <input
             type="text"
             placeholder="Your Fullname or Nickname"
-            className="input input-bordered"
+            className="input input-bordered text-primary"
             ref={userNameRef}
           />
         </div>
@@ -67,7 +112,7 @@ function SignUpPage() {
           <input
             type="text"
             placeholder="Email"
-            className="input input-bordered"
+            className="input input-bordered text-primary"
             ref={emailRef}
           />
         </div>
@@ -78,27 +123,16 @@ function SignUpPage() {
           <input
             type="password"
             placeholder="Password"
-            className="input input-bordered"
+            className="input input-bordered text-primary"
             ref={passwordRef}
           />
         </div>
 
         <div className="form-control mt-6 gap-2 ">
-          {/* <ConditionalLink
-        to="/Movie-Web-Site/"
-        condition={authUser}
-        className="flex"
-      >
-        <button onClick={handleClick} className="btn btn-primary grow">
-          Sign Up
-        </button>
-      </ConditionalLink> */}
+          <button onClick={handleSignup} className="btn btn-primary grow">
+            Sign Up
+          </button>
 
-          <NavLink to="/Home" className="flex">
-            <button onClick={handleClick} className="btn btn-primary grow">
-              Sign Up
-            </button>
-          </NavLink>
           <NavLink
             to="/LoginPage"
             className="label-text-alt link link-hover text-center flex-none"
@@ -109,10 +143,6 @@ function SignUpPage() {
       </div>
     </div>
   );
-
-  const showSignupCard = () => {
-    setIsCardShown(true);
-  };
 
   return (
     <div

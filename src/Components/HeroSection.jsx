@@ -55,7 +55,7 @@ function HeroSection(props, ref) {
   };
 
   return (
-    <div ref={ref} className="bg-base-100 flex w-full pt-20 sm:px-20">
+    <div ref={ref} className="bg-base-100 flex w-full pt-20 pr-4 sm:px-20">
       <div className="w-full h-64 sm:h-96">
         <Swiper
           style={{

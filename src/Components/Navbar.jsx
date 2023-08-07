@@ -1,8 +1,22 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebaseConfig";
+
 const Navbar = () => {
+  const logoutNavigate = useNavigate();
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        logoutNavigate("/LoginPage");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
-    <div className="navbar bg-base-100 p-4 sm:px-24 w-screen flex-col items-start sm:flex-row fixed top-0 left-0 right-0 z-50">
-      <div className="navbar-start ">
+    <div className="navbar bg-base-100 p-4 sm:px-20 w-full flex-col items-start sm:flex-row fixed top-0 left-0 right-0 z-50">
+      <div className="navbar-start px-2 flex flex-1">
         <div className="dropdown sm:hidden z-50">
           <label
             tabIndex={0}
@@ -38,22 +52,20 @@ const Navbar = () => {
               <a>Make Watchlists</a>
             </li>
             <li>
-              <a>Submenu 2</a>
+              <a>Favorites</a>
             </li>
 
             <li className="place-content-start">
-              <Link to="/LoginPage" className="btn btn-primary w-full btn-sm">
-                Log In
-              </Link>
-            </li>
-            <li className="place-content-start mx-1s">
-              <Link to="/" className="btn btn-primary w-full btn-sm">
-                Sign Up
-              </Link>
+              <button
+                onClick={handleLogout}
+                className="btn btn-primary w-full btn-sm bg-neutral text-base-content"
+              >
+                Log Out
+              </button>
             </li>
           </ul>
         </div>
-        <div className="btn normal-case text-xl sm:text-2xl p-2 bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
+        <div className="btn normal-case text-xl sm:text-2xl  bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="1em"
@@ -65,8 +77,9 @@ const Navbar = () => {
           345Movie
         </div>
       </div>
+
       <div className="navbar-center font-bold hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-1 ml-16">
           <li>
             <a>Movies</a>
           </li>
@@ -88,20 +101,19 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className="w-full sm:w-1/2">
+
+      <div className="navbar-end sm:ml-16 w-full">
         <input
           type="text"
           placeholder="Search Movie"
-          className="input w-full  sm:ml-3 input-ghost bg-base-300 flex-end  focus:outline-none"
+          className="text-primary input w-full sm:mr-16 bg-base-300 focus:outline-none"
         />
-      </div>
-      <div className="navbar-end gap-2 hidden sm:flex">
-        <Link className="btn btn-ghost" to="/LoginPage">
-          Log In
-        </Link>
-        <Link className="btn btn-primary" to="/">
-          Sign Up
-        </Link>
+        <button
+          onClick={handleLogout}
+          className="btn btn-primary hidden sm:flex"
+        >
+          Log out
+        </button>
       </div>
     </div>
   );
