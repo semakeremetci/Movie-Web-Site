@@ -45,7 +45,7 @@ function Slides(props, ref) {
     );
   };
   return (
-    <div ref={ref} className="sm:mx-20 py-4 m-4">
+    <div ref={ref} className="sm:mr-16 sm:ml-28 py-8 sm:py-16 m-4">
       <h1 className=" font-bold py-2 text-2xl">{props.h1}</h1>
       <div className="w-full">
         <Swiper

@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
+import Input from "./Input";
 
 const Navbar = () => {
+  const [navbar, setNavbar] = useState(false);
+
   const logoutNavigate = useNavigate();
   const handleLogout = () => {
     signOut(auth)
@@ -14,58 +19,60 @@ const Navbar = () => {
       });
   };
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+  }, []);
+
+  const changeBackground = () => {
+    // console.log(window.scrollY);
+    const windowWidth = window.innerWidth;
+
+    if (windowWidth >= 1024) {
+      // Laptop genişliği
+      if (window.scrollY >= 608) {
+        setNavbar(true);
+      } else {
+        setNavbar(false);
+      }
+    } else if (windowWidth >= 768) {
+      // Tablet genişliği
+      if (window.scrollY >= 52) {
+        setNavbar(true);
+      } else {
+        setNavbar(false);
+      }
+    } else {
+      // Telefon genişliği
+      if (window.scrollY >= 72) {
+        setNavbar(true);
+      } else {
+        setNavbar(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    changeBackground();
+    window.addEventListener("scroll", changeBackground);
+  });
+
   return (
-    <div className="navbar bg-base-100 p-4 sm:px-20 w-full flex-col items-start sm:flex-row fixed top-0 left-0 right-0 z-50">
-      <div className="navbar-start px-2 flex flex-1">
-        <div className="dropdown sm:hidden z-50">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost p-0 text-neutral-content"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </label>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm bg-primary-focus dropdown-content mt-3 z-[1] p-2 gap-1 rounded-box w-40"
-          >
-            <li>
-              <a>Movies</a>
-            </li>
-            <li>
-              <a>Tv Shows</a>
-            </li>
-
-            <li>
-              <a>Make Watchlists</a>
-            </li>
-            <li>
-              <a>Favorites</a>
-            </li>
-
-            <li className="place-content-start">
-              <button
-                onClick={handleLogout}
-                className="btn btn-primary w-full btn-sm bg-neutral text-base-content"
-              >
-                Log Out
-              </button>
-            </li>
-          </ul>
-        </div>
-        <div className="btn normal-case text-xl sm:text-2xl  bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
+    <div
+      style={{ backgroundColor: navbar ? "black" : "transparent" }}
+      className="navbar bg-transparent py-2 px-4 sm:pr-16 sm:pl-24 fixed top-0 left-0 right-0 z-50"
+    >
+      <div className="flex-1">
+        <div className="btn normal-case text-xl sm:text-2xl bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="1em"
@@ -77,43 +84,42 @@ const Navbar = () => {
           345Movie
         </div>
       </div>
-
-      <div className="navbar-center font-bold hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 ml-16">
-          <li>
-            <a>Movies</a>
-          </li>
-          <li>
-            <a>Tv Shows</a>
-          </li>
-          <li tabIndex={0}>
-            <details className="active:rounded-lg">
-              <summary className="active:text-white">More</summary>
-              <ul className="p-4 z-50">
-                <li>
-                  <a>Make Watchlists</a>
-                </li>
-                <li>
-                  <a>Favorites</a>
-                </li>
-              </ul>
-            </details>
-          </li>
-        </ul>
-      </div>
-
-      <div className="navbar-end sm:ml-16 w-full">
-        <input
-          type="text"
-          placeholder="Search Movie"
-          className="text-primary input w-full sm:mr-16 bg-base-300 focus:outline-none"
-        />
-        <button
-          onClick={handleLogout}
-          className="btn btn-primary hidden sm:flex"
-        >
-          Log out
-        </button>
+      <div className="flex-none gap-6">
+        <Input customClass="hidden sm:flex"></Input>
+        <div className="dropdown dropdown-end">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost btn-circle avatar btn-lg"
+          >
+            <div className="w-4/5 h-4/5 rounded-full bg-neutral">
+              <h6 className="flex h-full justify-center items-center text-xl">
+                s
+              </h6>
+            </div>
+          </label>
+          <ul
+            tabIndex={0}
+            className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-neutral rounded-box w-52 gap-2"
+          >
+            <li>
+              <a className="justify-between">Make Watchlist</a>
+            </li>
+            <li>
+              <a className="justify-between">My Watchlists</a>
+            </li>
+            <li>
+              <a>Settings</a>
+            </li>
+            <li>
+              <button
+                onClick={handleLogout}
+                className="btn btn-sm btn-primary hidden sm:flex"
+              >
+                Log out
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

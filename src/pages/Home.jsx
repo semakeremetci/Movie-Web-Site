@@ -4,6 +4,7 @@ import Slides from "../Components/Slides";
 import Footer from "../Components/Footer";
 import SideBar from "../Components/SideBar";
 import { useRef } from "react";
+import Input from "../Components/Input";
 
 function Home() {
   const heroSectionRef = useRef(null);
@@ -37,6 +38,7 @@ function Home() {
       <Navbar></Navbar>
       <SideBar scrollToSection={scrollToSection}></SideBar>
       <HeroSection ref={heroSectionRef}></HeroSection>
+      <Input customClass="flex sm:hidden m-6 mb-0 mt-12"></Input>
       <Slides ref={popularSlidesRef} h1={"Popular"}></Slides>
       <Slides ref={topRatedSlidesRef} h1={"Top Rated"}></Slides>
       <Slides ref={upComingSlidesRef} h1={"Up Coming"}></Slides>

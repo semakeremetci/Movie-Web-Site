@@ -2,7 +2,7 @@ import React from "react";
 
 function SideBar(props) {
   return (
-    <ul className="menu justify-center gap-5 p-3 sidebar hidden sm:flex h-screen bg-base-100 z-40 fixed top-0 left-0">
+    <ul className="menu justify-center gap-5 p-3 sidebar hidden sm:flex h-screen bg-gradient-to-r from-black to-transparent z-40 fixed top-0 left-0">
       <li>
         <a
           className="tooltip tooltip-right"
