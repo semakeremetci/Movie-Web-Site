@@ -9,7 +9,7 @@ import { forwardRef } from "react";
 function HeroSection(props, ref) {
   const randomPic = () => {
     const id = Math.floor(Math.random() * 400);
-    return `https://picsum.photos/id/${id}/1280/650`;
+    return `https://picsum.photos/id/${id}/1920/1080`;
   };
   const createSlide = () => {
     return (

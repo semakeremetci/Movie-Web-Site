@@ -113,7 +113,7 @@ const Navbar = () => {
             <li>
               <button
                 onClick={handleLogout}
-                className="btn btn-sm btn-primary hidden sm:flex"
+                className="btn btn-sm btn-primary flex"
               >
                 Log out
               </button>

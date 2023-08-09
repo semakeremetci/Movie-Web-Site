@@ -55,7 +55,7 @@ function SignUpPage() {
   };
 
   const signupCard = (
-    <div className="card w-full sm:w-5/6 md:w-3/5 lg:w-96 shadow-2xl bg-base-100 mt-8">
+    <div className="card w-full sm:w-5/6 md:w-3/5 lg:w-96 bg-base-100 mt-8">
       <div className="card-body">
         {emptyError && (
           <div className="alert alert-error flex bg-red-700 py-1 px-2 text-sm">
@@ -151,7 +151,7 @@ function SignUpPage() {
       }}
       className="hero min-h-screen bg-base-200"
     >
-      <div className="hero-content flex-col h-full w-full bg-black/[0.7]">
+      <div className="hero-content flex-col h-screen w-screen bg-black/[0.7]">
         <div className="absolute top-0 left-0 w-full flex justify-between p-4 pl-0 sm:pl-4">
           <div className="btn normal-case text-2xl bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
             <svg
