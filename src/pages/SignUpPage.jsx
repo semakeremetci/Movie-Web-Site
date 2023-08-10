@@ -1,14 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-// import { onAuthStateChanged } from "firebase/auth";
 
 function SignUpPage() {
-  const userNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
-  // const [authUser, setAuthUser] = useState(null);
   const [isCardShown, setIsCardShown] = useState(false);
   const [signupError, setSignupError] = useState(null);
   const [emptyError, setEmptyError] = useState(false);
@@ -17,8 +14,7 @@ function SignUpPage() {
   const handleSignup = () => {
     let email = emailRef.current.value;
     let password = passwordRef.current.value;
-    let userName = userNameRef.current.value;
-    if (email && password && userName) {
+    if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in
@@ -37,19 +33,12 @@ function SignUpPage() {
     }
   };
 
-  // useEffect(() => {
-  //   const listen = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       setAuthUser(user);
-  //       console.log(authUser);
-  //     } else {
-  //       setAuthUser(null);
-  //     }
-  //   });
-  //   return () => {
-  //     listen();
-  //   };
-  // }, []);
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSignup();
+    }
+  };
+
   const showSignupCard = () => {
     setIsCardShown(true);
   };
@@ -72,7 +61,7 @@ function SignUpPage() {
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
               />
             </svg>
-            <span>Username, Email or Password can not be empty.</span>
+            <span>Email or Password can not be empty.</span>
           </div>
         )}
         {signupError && (
@@ -94,26 +83,17 @@ function SignUpPage() {
           </div>
         )}
         <p className="text-center m-1">Welcome! Please Sign Up</p>
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Username</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Your Fullname or Nickname"
-            className="input input-bordered text-primary"
-            ref={userNameRef}
-          />
-        </div>
+
         <div className="form-control">
           <label className="label">
             <span className="label-text">Email</span>
           </label>
           <input
-            type="text"
+            type="email"
             placeholder="Email"
             className="input input-bordered text-primary"
             ref={emailRef}
+            onKeyDown={handleKeyPress}
           />
         </div>
         <div className="form-control">
@@ -125,6 +105,7 @@ function SignUpPage() {
             placeholder="Password"
             className="input input-bordered text-primary"
             ref={passwordRef}
+            onKeyDown={handleKeyPress}
           />
         </div>
 
@@ -179,7 +160,7 @@ function SignUpPage() {
             <div className="max-w-md">
               <h1 className="mb-5 text-6xl font-bold ">Hello there</h1>
               <p className="mb-5 text-lg ">
-                See best movies and series, make watchlists, add favorites and
+                See best movies and series, watch trailers, make watchlists and
                 more.
               </p>
               <button onClick={showSignupCard} className="btn btn-primary">

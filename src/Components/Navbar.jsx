@@ -7,6 +7,7 @@ import Input from "./Input";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
+  const [userEmail, setUserEmail] = useState();
 
   const logoutNavigate = useNavigate();
   const handleLogout = () => {
@@ -25,10 +26,11 @@ const Navbar = () => {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
-        // ...
+        console.log(user.email);
+        setUserEmail(user.email);
       } else {
         // User is signed out
-        // ...
+        logoutNavigate("/LoginPage");
       }
     });
   }, []);
@@ -69,7 +71,7 @@ const Navbar = () => {
   return (
     <div
       style={{ backgroundColor: navbar ? "black" : "transparent" }}
-      className="navbar bg-transparent py-2 px-4 sm:pr-16 sm:pl-24 fixed top-0 left-0 right-0 z-50"
+      className="navbar bg-transparent backdrop-blur-md py-2 px-4 sm:pr-16 sm:pl-24 fixed top-0 left-0 right-0 z-50"
     >
       <div className="flex-1">
         <div className="btn normal-case text-xl sm:text-2xl bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
@@ -84,7 +86,7 @@ const Navbar = () => {
           345Movie
         </div>
       </div>
-      <div className="flex-none gap-6">
+      <div className="flex-none gap-4 ml-6">
         <Input customClass="hidden sm:flex"></Input>
         <div className="dropdown dropdown-end">
           <label
@@ -93,7 +95,7 @@ const Navbar = () => {
           >
             <div className="w-4/5 h-4/5 rounded-full bg-neutral">
               <h6 className="flex h-full justify-center items-center text-xl">
-                s
+                {userEmail && userEmail.charAt(0).toUpperCase()}
               </h6>
             </div>
           </label>

@@ -31,6 +31,13 @@ function LogInPage() {
       setLoginError(null);
     }
   };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <div
       style={{
@@ -105,10 +112,11 @@ function LogInPage() {
                 <span className="label-text">Email</span>
               </label>
               <input
-                type="text"
+                type="email"
                 placeholder="Your Email"
                 className="input input-bordered text-primary"
                 ref={loginEmailRef}
+                onKeyDown={handleKeyPress}
               />
             </div>
             <div className="form-control">
@@ -116,10 +124,11 @@ function LogInPage() {
                 <span className="label-text">Password</span>
               </label>
               <input
-                type="text"
+                type="password"
                 placeholder="Your Password"
                 className="input input-bordered text-primary"
                 ref={loginPasswordRef}
+                onKeyDown={handleKeyPress}
               />
               <label className="label">
                 <NavLink

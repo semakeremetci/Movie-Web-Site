@@ -3,12 +3,12 @@ import React from "react";
 function Input(props) {
   return (
     <div
-      className={`form-control flex-row justify-center items-center backdrop-blur-lg border-2 border-primary-content rounded-3xl ${props.customClass}`}
+      className={`form-control flex-row justify-center items-center border-2 border-primary-content outline outline-1 outline-neutral rounded-3xl ${props.customClass}`}
     >
       <input
         type="text"
         placeholder="Search Movies or Series"
-        className="input text-primary placeholder:text-primary placeholder:font-bold md:w-auto  focus:outline-none bg-transparent border-none"
+        className="input text-primary placeholder:text-primary md:w-auto focus:outline-none bg-transparent border-none"
       />
       <div className="btn btn-ghost rounded-full p-2">
         <svg

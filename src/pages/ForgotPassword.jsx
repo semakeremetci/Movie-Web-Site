@@ -1,7 +1,31 @@
-import React from "react";
+import { sendPasswordResetEmail } from "firebase/auth";
+import React, { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { auth } from "../firebaseConfig";
 
 function ForgotPassword() {
+  const userEmail = useRef();
+  const [resetSuccess, setResetSuccess] = useState();
+  const [resetError, setResetError] = useState();
+
+  const handleResetPassword = () => {
+    const email = userEmail.current.value;
+    sendPasswordResetEmail(auth, email)
+      .then((link) => {
+        // Construct password reset email template, embed the link and send
+        // using custom SMTP server.
+        // console.log("success");
+        setResetSuccess(true);
+        setResetError(null);
+      })
+      .catch((error) => {
+        // Some error occurred.
+        // console.log(error.code);
+        setResetError(error.code);
+        setResetSuccess(false);
+      });
+  };
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col h-full w-full">
@@ -21,9 +45,29 @@ function ForgotPassword() {
 
         <div className="card w-full sm:w-5/6 md:w-3/5  lg:w-96   shadow-2xl bg-base-100">
           <div className="card-body">
-            <p className="text-accent">
-              A reset link has been sent. Check your email.
-            </p>
+            {resetSuccess && (
+              <p className="text-info">
+                A reset link has been sent. Check your email.
+              </p>
+            )}
+            {resetError && (
+              <div className="alert alert-error flex bg-red-700 p-2 px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+                <span>{resetError}</span>
+              </div>
+            )}
             <h2 className="text-center m-4 mb-0 text-lg">
               Trouble logging in?
             </h2>
@@ -36,6 +80,7 @@ function ForgotPassword() {
                 <span className="label-text">Email</span>
               </label>
               <input
+                ref={userEmail}
                 type="text"
                 placeholder="Your Email"
                 className="input input-bordered"
@@ -43,9 +88,13 @@ function ForgotPassword() {
             </div>
 
             <div className="form-control mt-6 gap-2 ">
-              <NavLink to="/Home" className="flex">
-                <button className="btn btn-primary grow">Reset Password</button>
-              </NavLink>
+              <button
+                onClick={handleResetPassword}
+                className="btn btn-primary grow"
+              >
+                Reset Password
+              </button>
+
               <NavLink
                 to="/LoginPage"
                 className="label-text-alt link link-hover text-center flex-none"

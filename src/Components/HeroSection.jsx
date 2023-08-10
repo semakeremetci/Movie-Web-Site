@@ -13,14 +13,12 @@ function HeroSection(props, ref) {
   };
   const createSlide = () => {
     return (
-      <SwiperSlide className="relative">
-        <div className="slide-image absolute top-0 left-0 right-0 h-full">
-          <img
-            className="bg-contain bg-center max-w-none"
-            src={randomPic()}
-            alt=""
-          />
-        </div>
+      <SwiperSlide
+        style={{
+          backgroundImage: `url(${randomPic()})`,
+        }}
+        className="relative hero lg:min-h-screen"
+      >
         <div className="p-4 sm:pl-64 absolute w-4/5 h-full bg-gradient-to-r from-black to-transparent  flex flex-col  justify-center">
           <div
             className="title font-bold text-primary text-4xl"
@@ -69,7 +67,6 @@ function HeroSection(props, ref) {
           // onSlideChange={() => console.log("slide change")}
           // onSwiper={(swiper) => console.log(swiper)}
         >
-          {createSlide()}
           {createSlide()}
           {createSlide()}
           {createSlide()}
