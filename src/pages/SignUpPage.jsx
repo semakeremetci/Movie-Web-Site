@@ -149,9 +149,9 @@ function SignUpPage() {
       style={{
         backgroundImage: "url(https://picsum.photos/1920/1080/)",
       }}
-      className="hero min-h-screen bg-base-200"
+      className="hero min-h-screen"
     >
-      <div className="hero-content flex-col h-screen w-screen bg-black/[0.7]">
+      <div className="hero-overlay bg-black/[0.7] flex items-center justify-center">
         <div className="absolute top-0 left-0 w-full flex justify-between p-4 pl-0 sm:pl-4">
           <div className="btn normal-case text-2xl bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
             <svg
@@ -175,15 +175,17 @@ function SignUpPage() {
         </div>
 
         {isCardShown == false && (
-          <div className="max-w-md">
-            <h1 className="mb-5 text-6xl font-bold ">Hello there</h1>
-            <p className="mb-5 text-lg ">
-              See best movies and series, make watchlists, add favorites and
-              more.
-            </p>
-            <button onClick={showSignupCard} className="btn btn-primary">
-              Get Started
-            </button>
+          <div className="hero-content text-center flex text-neutral-content">
+            <div className="max-w-md">
+              <h1 className="mb-5 text-6xl font-bold ">Hello there</h1>
+              <p className="mb-5 text-lg ">
+                See best movies and series, make watchlists, add favorites and
+                more.
+              </p>
+              <button onClick={showSignupCard} className="btn btn-primary">
+                Get Started
+              </button>
+            </div>
           </div>
         )}
         {isCardShown && signupCard}

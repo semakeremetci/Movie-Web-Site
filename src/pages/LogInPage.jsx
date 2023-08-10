@@ -36,9 +36,9 @@ function LogInPage() {
       style={{
         backgroundImage: "url(https://picsum.photos/1920/1080/)",
       }}
-      className="hero min-h-screen bg-base-200"
+      className="hero min-h-screen"
     >
-      <div className="hero-content flex-col h-full w-full bg-black/[0.6]">
+      <div className="hero-overlay bg-black/[0.7] flex items-center justify-center">
         <div className="absolute top-0 left-0 w-full flex justify-between p-4">
           <div className="btn normal-case text-2xl bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
             <svg
