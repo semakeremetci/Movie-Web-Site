@@ -6,30 +6,22 @@ import "swiper/css/navigation";
 import { forwardRef } from "react";
 
 function Slides(props, ref) {
-  const randomPic = () => {
-    const id = Math.floor(Math.random() * 300);
-    return `https://picsum.photos/id/${id}/400/500`;
-  };
-  const createSlide = () => {
+  const createSlide = (movie) => {
     return (
-      <SwiperSlide className=" cursor-pointer py-4">
+      <SwiperSlide key={movie.id} className=" cursor-pointer py-4">
         <div className="card card-compact bg-base-200 shadow-xl text-accent">
-          <figure>
+          <figure className="relative">
             <img
               className="bg-contain bg-center relative"
-              src={randomPic()}
-              alt=""
+              src={`https://image.tmdb.org/t/p/w342${
+                movie.poster_path ? movie.poster_path : movie.backdrop_path
+              }`}
+              alt="poster"
             />
-          </figure>
-          <div className="card-body flex flex-row">
-            <h2 className="card-title text-lg text-primary">
-              Spiderman: <br /> No Way Home
-            </h2>
-
-            <div className="card-actions justify-end flex-1 lg:static absolute top-1/4 left-1/4">
-              <button className="btn bg-transparent hover:bg-transparent hover:border-none border-none">
+            <div className="card-actions absolute top-2/5 left-1/4 sm:left-1/3">
+              <button className="btn  bg-transparent hover:bg-transparent hover:border-none border-none">
                 <svg
-                  className="lg:h-12"
+                  className="lg:h-16"
                   xmlns="http://www.w3.org/2000/svg"
                   height="4em"
                   viewBox="0 0 512 512"
@@ -39,6 +31,17 @@ function Slides(props, ref) {
                 </svg>
               </button>
             </div>
+          </figure>
+          <div className="card-body flex flex-row h-20 sm:h-20 ">
+            <h2 className="card-title text-lg text-primary">
+              {movie.title
+                ? movie.title.length > 26
+                  ? `${movie.title.substring(0, 26)}...`
+                  : movie.title
+                : movie.name.length > 26
+                ? `${movie.name.substring(0, 26)}...`
+                : movie.name}
+            </h2>
           </div>
         </div>
       </SwiperSlide>
@@ -71,15 +74,29 @@ function Slides(props, ref) {
           // onSlideChange={() => console.log("slide change")}
           // onSwiper={(swiper) => console.log(swiper)}
         >
-          {createSlide()}
-          {createSlide()}
-          {createSlide()}
-          {createSlide()}
-          {createSlide()}
-          {createSlide()}
-          {createSlide()}
-          {createSlide()}
-          {createSlide()}
+          {props.upComingData ? (
+            props.upComingData.map((movie) => createSlide(movie))
+          ) : (
+            <p></p>
+          )}
+
+          {props.popularData ? (
+            props.popularData.map((movie) => createSlide(movie))
+          ) : (
+            <p></p>
+          )}
+
+          {props.topRatedData ? (
+            props.topRatedData.map((movie) => createSlide(movie))
+          ) : (
+            <p></p>
+          )}
+
+          {props.tvSeriesData ? (
+            props.tvSeriesData.map((movie) => createSlide(movie))
+          ) : (
+            <p></p>
+          )}
         </Swiper>
       </div>
     </div>

@@ -3,7 +3,7 @@ import React from "react";
 function Input(props) {
   return (
     <div
-      className={`form-control flex-row justify-center items-center border-2 border-primary-content outline outline-1 outline-neutral rounded-3xl ${props.customClass}`}
+      className={`form-control flex-row justify-center items-center backdrop-blur-md border-2 border-primary-content outline outline-1 outline-neutral rounded-3xl ${props.customClass}`}
     >
       <input
         type="text"

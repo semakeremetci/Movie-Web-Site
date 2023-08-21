@@ -6,11 +6,19 @@ import SideBar from "../Components/SideBar";
 import { useRef } from "react";
 import Input from "../Components/Input";
 
-function Home() {
+function Home({
+  movieData,
+  popularData,
+  upComingData,
+  topRatedData,
+  tvSeriesData,
+}) {
+  console.log(tvSeriesData);
   const heroSectionRef = useRef(null);
   const popularSlidesRef = useRef(null);
   const topRatedSlidesRef = useRef(null);
   const upComingSlidesRef = useRef(null);
+  const tvSeriesSlidesRef = useRef(null);
 
   // Sayfada ikonlara tıklandığında belli bölgeye scroll etmesi için kullanılan fonksiyon.
   const scrollToSection = (section) => {
@@ -21,11 +29,14 @@ function Home() {
       case "popularSlides":
         popularSlidesRef.current.scrollIntoView({ behavior: "smooth" });
         break;
+      case "upComingSlides":
+        upComingSlidesRef.current.scrollIntoView({ behavior: "smooth" });
+        break;
       case "topRatedSlides":
         topRatedSlidesRef.current.scrollIntoView({ behavior: "smooth" });
         break;
-      case "upComingSlides":
-        upComingSlidesRef.current.scrollIntoView({ behavior: "smooth" });
+      case "tvSeriesSlides":
+        tvSeriesSlidesRef.current.scrollIntoView({ behavior: "smooth" });
         break;
       default:
         break;
@@ -37,11 +48,28 @@ function Home() {
     <div>
       <Navbar></Navbar>
       <SideBar scrollToSection={scrollToSection}></SideBar>
-      <HeroSection ref={heroSectionRef}></HeroSection>
+      <HeroSection ref={heroSectionRef} movieData={movieData}></HeroSection>
       <Input customClass="flex sm:hidden m-6 mb-0 mt-12"></Input>
-      <Slides ref={popularSlidesRef} h1={"Popular"}></Slides>
-      <Slides ref={topRatedSlidesRef} h1={"Top Rated"}></Slides>
-      <Slides ref={upComingSlidesRef} h1={"Up Coming"}></Slides>
+      <Slides
+        ref={popularSlidesRef}
+        popularData={popularData}
+        h1={"Popular"}
+      ></Slides>
+      <Slides
+        ref={upComingSlidesRef}
+        upComingData={upComingData}
+        h1={"Up Coming"}
+      ></Slides>
+      <Slides
+        ref={topRatedSlidesRef}
+        topRatedData={topRatedData}
+        h1={"Top Rated"}
+      ></Slides>
+      <Slides
+        ref={tvSeriesSlidesRef}
+        tvSeriesData={tvSeriesData}
+        h1={"Tv Series"}
+      ></Slides>
       <Footer></Footer>
     </div>
   );

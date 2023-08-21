@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Parallax, Pagination } from "swiper";
 import "swiper/swiper.min.css";
@@ -7,32 +7,30 @@ import "swiper/css/pagination";
 import { forwardRef } from "react";
 
 function HeroSection(props, ref) {
-  const randomPic = () => {
-    const id = Math.floor(Math.random() * 400);
-    return `https://picsum.photos/id/${id}/1920/1080`;
-  };
-  const createSlide = () => {
+  const createSlide = (movie) => {
     return (
       <SwiperSlide
+        key={movie.id}
         style={{
-          backgroundImage: `url(${randomPic()})`,
+          backgroundImage: `url(//image.tmdb.org/t/p/original${movie.backdrop_path})`,
         }}
         className="relative hero lg:min-h-screen"
       >
-        <div className="p-4 sm:pl-64 absolute w-4/5 h-full bg-gradient-to-r from-black to-transparent  flex flex-col  justify-center">
+        <div className="p-8 sm:pl-28  gap-2 lg:pl-64 absolute w-4/5 h-full bg-gradient-to-r from-black to-transparent  flex flex-col justify-center">
           <div
-            className="title font-bold text-primary text-4xl"
+            className="title font-bold text-primary text-3xl lg:text-5xl"
             data-swiper-parallax="-400"
           >
-            Avatar: The Way of Water
-          </div>
-          <div
-            className="subtitle hidden sm:block font-bold text-secondary-content"
-            data-swiper-parallax="-300"
-          >
-            Action/Fiction
+            {movie.title}
           </div>
 
+          <div
+            className="subtitle hidden sm:block font-bold text-secondary-content text-2xl"
+            data-swiper-parallax="-300"
+          >
+            {movie.release_date.split("-")[0]} / {movie.vote_average}
+          </div>
+          <div className="text-lg">Now Playing</div>
           <div className=" mt-4" data-swiper-parallax="-100">
             <button className="button btn bg-base-content normal-case rounded-xl p-2 text-white ">
               Watch Trailer
@@ -52,7 +50,7 @@ function HeroSection(props, ref) {
             "--swiper-pagination-color": "rgb(220, 165, 76)",
             "--swiper-pagination-bullet-inactive-color": "#999999",
             "--swiper-pagination-bullet-inactive-opacity": "1",
-            "--swiper-pagination-bullet-size": "12px",
+            "--swiper-pagination-bullet-size": "18px",
             "--swiper-pagination-bullet-horizontal-gap": "6px",
           }}
           parallax={true}
@@ -67,11 +65,11 @@ function HeroSection(props, ref) {
           // onSlideChange={() => console.log("slide change")}
           // onSwiper={(swiper) => console.log(swiper)}
         >
-          {createSlide()}
-          {createSlide()}
-          {createSlide()}
-          {createSlide()}
-          {createSlide()}
+          {props.movieData ? (
+            props.movieData.map((movie) => createSlide(movie))
+          ) : (
+            <p>Loading...</p>
+          )}
         </Swiper>
       </div>
     </div>

@@ -71,7 +71,7 @@ const Navbar = () => {
   return (
     <div
       style={{ backgroundColor: navbar ? "black" : "transparent" }}
-      className="navbar bg-transparent backdrop-blur-md py-2 px-4 sm:pr-16 sm:pl-24 fixed top-0 left-0 right-0 z-50"
+      className="navbar bg-transparent py-2 px-4 sm:pr-16 sm:pl-24 fixed top-0 left-0 right-0 z-50"
     >
       <div className="flex-1">
         <div className="btn normal-case text-xl sm:text-2xl bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
@@ -104,11 +104,9 @@ const Navbar = () => {
             className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-neutral rounded-box w-52 gap-2"
           >
             <li>
-              <a className="justify-between">Make Watchlist</a>
+              <a>Profile</a>
             </li>
-            <li>
-              <a className="justify-between">My Watchlists</a>
-            </li>
+
             <li>
               <a>Settings</a>
             </li>
