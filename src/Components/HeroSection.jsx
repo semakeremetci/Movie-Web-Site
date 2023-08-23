@@ -25,7 +25,7 @@ function HeroSection(props, ref) {
           </div>
 
           <div
-            className="subtitle hidden sm:block font-bold text-secondary-content text-2xl"
+            className="subtitle  font-bold text-secondary-content text-2xl"
             data-swiper-parallax="-300"
           >
             {movie.release_date.split("-")[0]} / {movie.vote_average}

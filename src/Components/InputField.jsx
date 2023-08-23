@@ -40,7 +40,7 @@ function InputField(props) {
 
   return (
     <div
-      className=" sticky top-20 py-2 z-50 object-right bg-black lg:grow lg:bg-transparent md:mr-16 md:ml-28 lg:fixed lg:top-4 lg:right-20 lg:py-0 lg:w-80"
+      className=" sticky shadow-lg top-16 py-2 z-50 object-right bg-black lg:grow lg:bg-transparent md:mr-16 md:ml-28 lg:fixed lg:top-4 lg:right-20 lg:py-0 lg:w-80"
       style={{
         ...(searchQuery && isFocused
           ? {
