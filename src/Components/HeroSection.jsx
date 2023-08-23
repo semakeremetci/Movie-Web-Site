@@ -16,7 +16,7 @@ function HeroSection(props, ref) {
         }}
         className="relative hero lg:min-h-screen"
       >
-        <div className="p-8 sm:pl-28  gap-2 lg:pl-64 absolute w-4/5 h-full bg-gradient-to-r from-black to-transparent  flex flex-col justify-center">
+        <div className="p-8 sm:pl-28  gap-2 lg:pl-64 absolute w-4/6 h-full bg-gradient-to-r from-black to-transparent  flex flex-col justify-center">
           <div
             className="title font-bold text-primary text-3xl lg:text-5xl"
             data-swiper-parallax="-400"

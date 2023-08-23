@@ -3,7 +3,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-import Input from "./Input";
+import Input from "./InputField";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
@@ -86,8 +86,8 @@ const Navbar = () => {
           345Movie
         </div>
       </div>
-      <div className="flex-none gap-4 ml-6">
-        <Input customClass="hidden sm:flex"></Input>
+      <div className="flex justify-end gap-4 ml-6">
+        <Input customClass=" hidden lg:flex "></Input>
         <div className="dropdown dropdown-end">
           <label
             tabIndex={0}

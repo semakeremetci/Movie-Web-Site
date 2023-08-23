@@ -4,7 +4,7 @@ import Slides from "../Components/Slides";
 import Footer from "../Components/Footer";
 import SideBar from "../Components/SideBar";
 import { useRef } from "react";
-import Input from "../Components/Input";
+import InputField from "../Components/InputField";
 
 function Home({
   movieData,
@@ -13,7 +13,7 @@ function Home({
   topRatedData,
   tvSeriesData,
 }) {
-  console.log(tvSeriesData);
+  console.log(movieData);
   const heroSectionRef = useRef(null);
   const popularSlidesRef = useRef(null);
   const topRatedSlidesRef = useRef(null);
@@ -49,7 +49,7 @@ function Home({
       <Navbar></Navbar>
       <SideBar scrollToSection={scrollToSection}></SideBar>
       <HeroSection ref={heroSectionRef} movieData={movieData}></HeroSection>
-      <Input customClass="flex sm:hidden m-6 mb-0 mt-12"></Input>
+      <InputField customClass="flex lg:hidden m-4 md:mx-0 mb-0 mt-4"></InputField>
       <Slides
         ref={popularSlidesRef}
         popularData={popularData}
