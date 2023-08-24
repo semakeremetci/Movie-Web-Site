@@ -3,7 +3,7 @@ import HeroSection from "../Components/HeroSection";
 import Slides from "../Components/Slides";
 import Footer from "../Components/Footer";
 import SideBar from "../Components/SideBar";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import InputField from "../Components/InputField";
 
 function Home({
@@ -13,7 +13,8 @@ function Home({
   topRatedData,
   tvSeriesData,
 }) {
-  console.log(movieData);
+  const [selectedMovie, setSelectedMovie] = useState([]);
+  console.log(selectedMovie);
   const heroSectionRef = useRef(null);
   const popularSlidesRef = useRef(null);
   const topRatedSlidesRef = useRef(null);
@@ -49,7 +50,10 @@ function Home({
       <Navbar></Navbar>
       <SideBar scrollToSection={scrollToSection}></SideBar>
       <HeroSection ref={heroSectionRef} movieData={movieData}></HeroSection>
-      <InputField customClass="flex lg:hidden m-4 md:mx-0 mb-0 mt-4"></InputField>
+      <InputField
+        onSubmitData={(data) => setSelectedMovie(data)}
+        customClass="flex"
+      ></InputField>
       <Slides
         ref={popularSlidesRef}
         popularData={popularData}

@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { searchMovie } from "../apiConfig.js";
+import useDebounce from "./setDebounce.jsx";
 
 function InputField(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
+  const delayedQuery = useDebounce(searchQuery, 500); // 0.5 saniyelik gecikme
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        if (searchQuery) {
-          const searchResponse = await fetch(searchMovie(searchQuery));
+        if (delayedQuery) {
+          const searchResponse = await fetch(searchMovie(delayedQuery));
           const searchData = await searchResponse.json();
           const moviesAndTVShows = searchData.results.filter(
             (item) => item.media_type === "movie" || item.media_type === "tv"
@@ -18,7 +20,7 @@ function InputField(props) {
           const sortedSearch = moviesAndTVShows.sort(
             (a, b) => b.vote_count - a.vote_count
           );
-          console.log(sortedSearch);
+          // console.log(sortedSearch);
           setSearchResults(sortedSearch);
         }
       } catch (error) {
@@ -27,22 +29,29 @@ function InputField(props) {
     };
 
     fetchMovies();
-  }, [searchQuery]);
+  }, [delayedQuery]);
+
+  const handleClick = (clickedMovie) => {
+    console.log(clickedMovie);
+    props.onSubmitData(clickedMovie);
+  };
 
   const handleFocus = () => {
     setIsFocused(true);
-    console.log(isFocused);
   };
-
   const handleBlur = () => {
-    setIsFocused(false);
+    setTimeout(() => {
+      setIsFocused(false);
+    }, 500); // 0.5 saniyede çalışıcak
   };
 
   return (
     <div
-      className=" sticky shadow-lg top-16 py-2 z-50 object-right bg-black lg:grow lg:bg-transparent md:mr-16 md:ml-28 lg:fixed lg:top-4 lg:right-20 lg:py-0 lg:w-80"
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      className=" sticky shadow-lg top-16 py-2 z-50 object-right bg-black sm:mr-16 sm:ml-28 lg:grow lg:bg-transparent lg:fixed lg:top-4 lg:right-20 lg:py-0 lg:w-80"
       style={{
-        ...(searchQuery && isFocused
+        ...(delayedQuery && isFocused
           ? {
               backgroundColor: "black",
               border: "2px solid black",
@@ -52,8 +61,8 @@ function InputField(props) {
       }}
     >
       <div
-        style={searchQuery && isFocused ? { border: "none" } : {}}
-        className={`form-control flex-row justify-start border-2 backdrop-blur-md rounded-3xl lg:border-black ${props.customClass}`}
+        style={delayedQuery && isFocused ? { border: "none" } : {}}
+        className={`form-control flex-row justify-start border-2 backdrop-blur-md rounded-3xl lg:border-black m-4 mb-0 sm:m-0 ${props.customClass}`}
       >
         <div className="btn btn-ghost rounded-full p-1.5">
           <svg
@@ -74,22 +83,21 @@ function InputField(props) {
         <input
           type="text"
           placeholder="Search Movies or Series"
-          className="input overflow-none text-primary placeholder:text-primary focus:outline-none bg-transparent border-none px-2 "
+          className="input w-full overflow-none text-primary placeholder:text-primary focus:outline-none bg-transparent border-none px-2 "
           value={searchQuery}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
           onChange={(e) => {
+            e.preventDefault();
             setSearchQuery(e.target.value);
-            console.log(e.target.value);
           }}
         />
       </div>
-      {searchQuery && isFocused && (
-        <ul className="border-t-2 p-5 md:px-0 md:h-96 border-primary-content overflow-y-scroll lg:border-black border-solid">
+      {delayedQuery && isFocused && (
+        <ul className="border-t-2 p-5 sm:px-0 sm:h-96 border-primary-content overflow-y-scroll lg:border-black border-solid">
           {searchResults.map((movie) => (
             <li
+              onClick={() => handleClick(movie)}
               key={movie.id}
-              className=" mb-1 flex gap-2 cursor-pointer hover:bg-primary-focus"
+              className=" mb-1 flex z-50 gap-2 cursor-pointer hover:bg-primary-focus"
             >
               <img
                 src={
@@ -105,11 +113,11 @@ function InputField(props) {
                 alt=""
               />
               {movie.title
-                ? movie.title.length > 24
-                  ? `${movie.title.substring(0, 24)}...`
+                ? movie.title.length > 30
+                  ? `${movie.title.substring(0, 30)}...`
                   : movie.title
-                : movie.name.length > 24
-                ? `${movie.name.substring(0, 24)}...`
+                : movie.name.length > 30
+                ? `${movie.name.substring(0, 30)}...`
                 : movie.name}
             </li>
           ))}
