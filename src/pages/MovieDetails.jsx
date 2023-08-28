@@ -167,7 +167,19 @@ function MovieDetails() {
                       return null;
                     })
                   ) : (
-                    storedData.name
+                    TV_SHOW.map((genre) => {
+                      if (storedData.genre_ids.includes(genre.id)) {
+                        return (
+                          <span
+                            className="badge badge-outline mr-1 p-2"
+                            key={genre.id}
+                          >
+                            {genre.genre}
+                          </span>
+                        );
+                      }
+                      return null;
+                    })
                   )
                 ) : (
                   <p>no data</p>
