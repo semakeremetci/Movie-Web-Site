@@ -3,16 +3,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Parallax } from "swiper";
 import "swiper/swiper.min.css";
 import "swiper/css/navigation";
-import { forwardRef } from "react";
 
-function Slides(props, ref) {
+function Slides(props) {
   const createSlide = (movie) => {
     return (
       <SwiperSlide key={movie.id} className=" cursor-pointer py-4">
         <div className="card card-compact bg-base-200 shadow-xl text-accent">
           <figure className="relative">
             <img
-              className="bg-contain bg-center relative"
+              className="bg-contain bg-center"
               src={`https://image.tmdb.org/t/p/w342${
                 movie.poster_path ? movie.poster_path : movie.backdrop_path
               }`}
@@ -48,7 +47,7 @@ function Slides(props, ref) {
     );
   };
   return (
-    <div ref={ref} className="sm:mr-16 sm:ml-28 py-8 sm:py-16 m-4">
+    <div className="sm:mr-16 sm:ml-28 py-8 sm:py-16 m-4">
       <h1 className=" font-bold py-2 text-2xl">{props.h1}</h1>
       <div className="w-full">
         <Swiper
@@ -103,4 +102,4 @@ function Slides(props, ref) {
   );
 }
 
-export default forwardRef(Slides);
+export default Slides;

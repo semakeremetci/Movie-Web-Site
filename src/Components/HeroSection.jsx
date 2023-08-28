@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Parallax, Pagination } from "swiper";
 import "swiper/swiper.min.css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
-import { forwardRef } from "react";
 
-function HeroSection(props, ref) {
+function HeroSection(props) {
   const createSlide = (movie) => {
     return (
       <SwiperSlide
@@ -42,7 +40,7 @@ function HeroSection(props, ref) {
   };
 
   return (
-    <div ref={ref} className="bg-base-100 flex w-full  h-96 lg:h-screen">
+    <div className="bg-base-100 flex w-full  h-96 lg:h-screen">
       <div className="w-full h-full">
         <Swiper
           style={{
@@ -76,4 +74,4 @@ function HeroSection(props, ref) {
   );
 }
 
-export default forwardRef(HeroSection);
+export default HeroSection;

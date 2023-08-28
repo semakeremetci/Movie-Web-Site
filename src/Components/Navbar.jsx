@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-import InputField from "./InputField";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
@@ -71,10 +70,13 @@ const Navbar = () => {
   return (
     <div
       style={{ backgroundColor: navbar ? "black" : "transparent" }}
-      className="navbar bg-transparent py-2 px-4 sm:pr-16 sm:pl-24 fixed top-0 left-0 right-0 z-50"
+      className="navbar bg-gradient-to-b from-black to-transparent py-2 px-4 sm:pr-16 sm:pl-28 fixed top-0 left-0 right-0 z-50"
     >
       <div className="flex-1">
-        <div className="btn normal-case text-xl sm:text-2xl bg-transparent border-none hover:bg-transparent font-bold text-neutral-content">
+        <NavLink
+          to={"/Home"}
+          className="btn normal-case text-xl sm:text-2xl sm:p-0 bg-transparent border-none hover:bg-transparent font-bold text-neutral-content"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="1em"
@@ -84,7 +86,7 @@ const Navbar = () => {
             <path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 32a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm-96-32a96 96 0 1 0 192 0 96 96 0 1 0 -192 0zM96 240c0-35 17.5-71.1 45.2-98.8S205 96 240 96c8.8 0 16-7.2 16-16s-7.2-16-16-16c-45.4 0-89.2 22.3-121.5 54.5S64 194.6 64 240c0 8.8 7.2 16 16 16s16-7.2 16-16z" />
           </svg>
           345Movie
-        </div>
+        </NavLink>
       </div>
       <div className="flex justify-end gap-4 ml-6">
         <div className="dropdown dropdown-end">

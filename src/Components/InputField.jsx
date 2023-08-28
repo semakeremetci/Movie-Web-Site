@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { searchMovie } from "../apiConfig.js";
 import useDebounce from "./setDebounce.jsx";
+import { useNavigate } from "react-router-dom";
 
 function InputField(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const delayedQuery = useDebounce(searchQuery, 500); // 0.5 saniyelik gecikme
+  const movieNvigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -32,8 +34,8 @@ function InputField(props) {
   }, [delayedQuery]);
 
   const handleClick = (clickedMovie) => {
-    console.log(clickedMovie);
-    props.onSubmitData(clickedMovie);
+    localStorage.setItem("storedData", JSON.stringify(clickedMovie));
+    movieNvigate("/MovieDetails");
   };
 
   const handleFocus = () => {

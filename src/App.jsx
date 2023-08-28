@@ -5,6 +5,7 @@ import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
 import Home from "./pages/Home";
 import ForgotPassword from "./pages/forgotPassword";
+import MovieDetails from "./pages/MovieDetails";
 import {
   nowPlayingMovie,
   discoverMovie,
@@ -19,6 +20,7 @@ function App() {
   const [popularMovies, setPopularMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [tvSeries, setTvSeries] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState([]);
 
   useEffect(() => {
     const getMovies = async () => {
@@ -50,7 +52,7 @@ function App() {
     };
 
     getMovies();
-    // console.log(tvSeries);
+    // console.log(movieList);
   }, []);
 
   return (
@@ -58,6 +60,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SignUpPage />} />
         <Route path="/LoginPage" element={<LogInPage />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
         <Route
           path="/Home"
           element={
@@ -70,7 +73,7 @@ function App() {
             />
           }
         />
-        <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/MovieDetails" element={<MovieDetails />} />
       </Routes>
     </>
   );
