@@ -17,19 +17,6 @@ function Slides(props) {
               }`}
               alt="poster"
             />
-            <div className="card-actions absolute top-2/5 left-1/4 sm:left-1/3">
-              <button className="btn  bg-transparent hover:bg-transparent hover:border-none border-none">
-                <svg
-                  className="lg:h-16"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="4em"
-                  viewBox="0 0 512 512"
-                  fill="rgb(220, 165, 76)"
-                >
-                  <path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c-7.6 4.2-12.3 12.3-12.3 20.9V344c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z" />
-                </svg>
-              </button>
-            </div>
           </figure>
           <div className="card-body flex flex-row h-20 sm:h-20 ">
             <h2 className="card-title text-lg text-primary">
@@ -47,7 +34,7 @@ function Slides(props) {
     );
   };
   return (
-    <div className="sm:mr-16 sm:ml-28 py-8 sm:py-16 m-4">
+    <div className={`sm:mr-16 sm:ml-28 py-8 sm:py-16 m-4 ${props.customClass}`}>
       <h1 className=" font-bold py-2 text-2xl">{props.h1}</h1>
       <div className="w-full">
         <Swiper
@@ -70,8 +57,6 @@ function Slides(props) {
           parallax={true}
           spaceBetween={20}
           slidesPerView={2}
-          // onSlideChange={() => console.log("slide change")}
-          // onSwiper={(swiper) => console.log(swiper)}
         >
           {props.upComingData ? (
             props.upComingData.map((movie) => createSlide(movie))
@@ -93,6 +78,11 @@ function Slides(props) {
 
           {props.tvSeriesData ? (
             props.tvSeriesData.map((movie) => createSlide(movie))
+          ) : (
+            <p></p>
+          )}
+          {props.similarData ? (
+            props.similarData.map((movie) => createSlide(movie))
           ) : (
             <p></p>
           )}

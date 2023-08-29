@@ -94,7 +94,7 @@ function InputField(props) {
         />
       </div>
       {delayedQuery && isFocused && (
-        <ul className="border-t-2 p-5 sm:px-0 sm:h-96 border-primary-content overflow-y-scroll lg:border-black border-solid">
+        <ul className="border-t-2 p-5 h-72 sm:px-0 sm:h-96 border-primary-content overflow-y-scroll lg:border-black border-solid">
           {searchResults.map((movie) => (
             <li
               onClick={() => handleClick(movie)}

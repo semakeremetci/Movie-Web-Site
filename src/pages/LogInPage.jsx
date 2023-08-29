@@ -19,7 +19,7 @@ function LogInPage() {
           // Signed in
           const user = userCredential.user;
           navigateLogin("/Home");
-          console.log("logged in successfully");
+          // console.log("logged in successfully");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -106,7 +106,9 @@ function LogInPage() {
                 <span>{loginError}</span>
               </div>
             )}
-            <p className="text-center m-1">Welcome! Please Log In</p>
+            <h1 className="text-center text-primary-focus m-1 text-2xl">
+              Log In
+            </h1>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>

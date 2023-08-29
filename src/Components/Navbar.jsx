@@ -7,12 +7,12 @@ import { useEffect, useState } from "react";
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
   const [userEmail, setUserEmail] = useState();
+  const navigateLogin = useNavigate();
 
-  const logoutNavigate = useNavigate();
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
-        logoutNavigate("/LoginPage");
+        navigateLogin("/LoginPage");
       })
       .catch((error) => {
         console.log(error);
@@ -20,19 +20,27 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
+        // User is signed in
         const uid = user.uid;
-        console.log(user.email);
         setUserEmail(user.email);
+        console.log(user.email);
+        localStorage.setItem("userId", uid);
       } else {
         // User is signed out
-        logoutNavigate("/LoginPage");
+        navigateLogin("/LoginPage");
+        localStorage.removeItem("userId");
       }
     });
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (!localStorage.getItem("userId")) {
+      navigateLogin("/LoginPage");
+    }
+  }, [userEmail]);
 
   const changeBackground = () => {
     // console.log(window.scrollY);
@@ -40,7 +48,7 @@ const Navbar = () => {
 
     if (windowWidth >= 1024) {
       // Laptop genişliği
-      if (window.scrollY >= 608) {
+      if (window.scrollY >= 300) {
         setNavbar(true);
       } else {
         setNavbar(false);

@@ -82,7 +82,7 @@ function SignUpPage() {
             <span>{signupError}</span>
           </div>
         )}
-        <p className="text-center m-1">Welcome! Please Sign Up</p>
+        <h1 className="text-center text-primary-focus m-1 text-2xl">Sign Up</h1>
 
         <div className="form-control">
           <label className="label">
