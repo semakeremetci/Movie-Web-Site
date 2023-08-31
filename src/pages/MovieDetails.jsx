@@ -64,13 +64,21 @@ function MovieDetails() {
     return true;
   };
 
+  const isMobile = window.innerWidth <= 768;
   const opts = {
-    height: "390",
+    height: isMobile ? "300" : "500",
     width: "100%",
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
     },
+  };
+
+  const scrollToAndShow = () => {
+    const element = document.getElementById("scrollToThisDiv");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      setShowTrailer(true);
+    }
   };
 
   useEffect(() => {
@@ -116,6 +124,8 @@ function MovieDetails() {
             vid.name === "Official Trailer"
               ? vid.name === "Official Trailer"
               : vid.name === "Main Trailer"
+              ? vid.name === "Main Trailer"
+              : vid.name === "Teaser Trailer"
           );
 
           setSimilarMovie(filteredResults);
@@ -278,23 +288,27 @@ function MovieDetails() {
                       : `No data : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`
                     : "no data"}
                 </p>
-                <button
-                  onClick={() => setShowTrailer(true)}
-                  className="btn bg-base-content text-white "
-                >
-                  Watch Trailer
-                </button>
+                {trailer && (
+                  <button
+                    onClick={scrollToAndShow}
+                    className="btn bg-base-content text-white "
+                  >
+                    Watch Trailer
+                  </button>
+                )}
               </div>
             </div>
           </div>
         </div>
-        {showTrailer && (
-          <div className="p-8 sm:pr-16 sm:pl-28">
-            {trailer && trailer.key && (
-              <YouTube opts={opts} videoId={trailer.key} />
-            )}
-          </div>
-        )}
+        <div className="" id="scrollToThisDiv">
+          {showTrailer && (
+            <div className="p-8 sm:pr-16 sm:pl-28">
+              {trailer && trailer.key && (
+                <YouTube opts={opts} videoId={trailer.key} />
+              )}
+            </div>
+          )}
+        </div>
         {cast?.length > 0 ? (
           <Slides
             h1={"Cast"}
