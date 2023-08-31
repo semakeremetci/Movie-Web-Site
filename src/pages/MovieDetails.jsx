@@ -8,6 +8,8 @@ import { apiKey } from "../apiConfig";
 function MovieDetails() {
   const [storedData, setStoredData] = useState(null);
   const [similarMovie, setSimilarMovie] = useState(null);
+  const [cast, setCast] = useState(null);
+  const [clicked, setClicked] = useState(null);
 
   const MOVIE = [
     { genre: "Action", id: 28 },
@@ -63,18 +65,27 @@ function MovieDetails() {
     let localStoredData = JSON.parse(localStorage.getItem("storedData"));
     setStoredData(localStoredData);
     console.log("storeddata", localStoredData);
+    window.scrollTo(0, 0);
 
     const fetchMovies = async () => {
       try {
         const similarResponse = await fetch(
           `https://api.themoviedb.org/3/discover/${
-            localStoredData.media_type
+            localStoredData.name ? "tv" : "movie"
           }?api_key=${apiKey}&with_genres=${localStoredData.genre_ids.join(
             ","
           )}&vote_average.gte=7&vote_count.gte=1000`
         );
-        if (similarResponse) {
+
+        const creditResponse = await fetch(
+          `https://api.themoviedb.org/3/${
+            localStoredData.name ? "tv" : "movie"
+          }/${localStoredData.id}/credits?api_key=${apiKey}`
+        );
+
+        if (similarResponse && creditResponse) {
           const similarData = await similarResponse.json();
+          const creditData = await creditResponse.json();
 
           const filteredResults = similarData.results.filter((result) => {
             return (
@@ -84,7 +95,9 @@ function MovieDetails() {
           });
 
           setSimilarMovie(filteredResults);
+          setCast(creditData.cast.slice(0, 10));
           console.log("Similar movies:", filteredResults);
+          console.log("credit", creditData.cast.slice(0, 10));
         } else {
           console.error("Error fetching movies");
         }
@@ -93,10 +106,12 @@ function MovieDetails() {
       }
     };
 
-    if (localStoredData.genre_ids.length > 0) {
+    if (localStoredData) {
       fetchMovies();
     }
-  }, []);
+
+    return () => fetchMovies();
+  }, [clicked]);
 
   return (
     <>
@@ -134,15 +149,11 @@ function MovieDetails() {
                   )}
                 </h1>
                 <p className="pt-4 flex gap-2">
-                  {storedData ? (
-                    storedData.vote_average ? (
-                      storedData.vote_average.toFixed(1)
-                    ) : (
-                      "no data"
-                    )
-                  ) : (
-                    <p>no data</p>
-                  )}
+                  {storedData
+                    ? storedData.vote_average
+                      ? storedData.vote_average.toFixed(1)
+                      : "no data"
+                    : "no data"}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="0.8em"
@@ -152,84 +163,64 @@ function MovieDetails() {
                   >
                     <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
                   </svg>
-                  {storedData ? (
-                    storedData.vote_count ? (
-                      `(${storedData.vote_count}) Votes`
-                    ) : (
-                      "no data"
-                    )
-                  ) : (
-                    <p>no data</p>
-                  )}
+                  {storedData
+                    ? storedData.vote_count
+                      ? `(${storedData.vote_count}) Votes`
+                      : "no data"
+                    : "no data"}
                 </p>
                 <p className="py-2">
-                  {storedData ? (
-                    storedData.origin_country ? (
-                      `Origin: ${storedData.origin_country} `
-                    ) : (
-                      `Language: ${storedData.original_language.toUpperCase()} `
-                    )
-                  ) : (
-                    <p>no data</p>
-                  )}
+                  {storedData
+                    ? storedData.origin_country
+                      ? `Origin: ${storedData.origin_country} `
+                      : `Language: ${storedData.original_language.toUpperCase()} `
+                    : "no data"}
                 </p>
                 <p className="pb-2">
-                  {storedData ? (
-                    storedData.release_date ? (
-                      storedData.release_date
-                    ) : (
-                      `Release Date: ${storedData.first_air_date}`
-                    )
-                  ) : (
-                    <p>no data</p>
-                  )}
+                  {storedData
+                    ? storedData.release_date
+                      ? storedData.release_date
+                      : `Release Date: ${storedData.first_air_date}`
+                    : "no data"}
                 </p>
                 <p className="pb-2">
-                  {storedData ? (
-                    storedData.media_type ? (
-                      `Type: ${storedData.media_type}`
-                    ) : (
-                      storedData.name
-                    )
-                  ) : (
-                    <p>no data</p>
-                  )}
+                  {storedData
+                    ? storedData.title
+                      ? `Type : MOVIE`
+                      : `TV`
+                    : "no data"}
                 </p>
 
                 <p className="pb-2">
-                  {storedData ? (
-                    storedData.media_type === "movie" ? (
-                      MOVIE.map((genre) => {
-                        if (storedData.genre_ids.includes(genre.id)) {
-                          return (
-                            <span
-                              className="badge badge-outline m-1 ml-0 p-2"
-                              key={genre.id}
-                            >
-                              {genre.genre}
-                            </span>
-                          );
-                        }
-                        return null;
-                      })
-                    ) : (
-                      TV_SHOW.map((genre) => {
-                        if (storedData.genre_ids.includes(genre.id)) {
-                          return (
-                            <span
-                              className="badge badge-outline m-1 ml-0 p-2"
-                              key={genre.id}
-                            >
-                              {genre.genre}
-                            </span>
-                          );
-                        }
-                        return null;
-                      })
-                    )
-                  ) : (
-                    <p>no data</p>
-                  )}
+                  {storedData
+                    ? storedData.title
+                      ? MOVIE.map((genre) => {
+                          if (storedData.genre_ids.includes(genre.id)) {
+                            return (
+                              <span
+                                className="badge badge-outline m-1 ml-0 p-2"
+                                key={genre.id}
+                              >
+                                {genre.genre}
+                              </span>
+                            );
+                          }
+                          return null;
+                        })
+                      : TV_SHOW.map((genre) => {
+                          if (storedData.genre_ids.includes(genre.id)) {
+                            return (
+                              <span
+                                className="badge badge-outline m-1 ml-0 p-2"
+                                key={genre.id}
+                              >
+                                {genre.genre}
+                              </span>
+                            );
+                          }
+                          return null;
+                        })
+                    : "no data"}
                 </p>
               </div>
             </div>
@@ -255,15 +246,11 @@ function MovieDetails() {
               <div>
                 <h1 className="text-5xl font-bold text-primary">Overview</h1>
                 <p className="py-6">
-                  {storedData ? (
-                    storedData.overview ? (
-                      storedData.overview
-                    ) : (
-                      `No data : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`
-                    )
-                  ) : (
-                    <p>no data</p>
-                  )}
+                  {storedData
+                    ? storedData.overview
+                      ? storedData.overview
+                      : `No data : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`
+                    : "no data"}
                 </p>
                 <button className="btn bg-base-content text-white ">
                   Watch Trailer
@@ -272,11 +259,19 @@ function MovieDetails() {
             </div>
           </div>
         </div>
+        {cast?.length > 0 ? (
+          <Slides
+            h1={"Cast"}
+            cast={cast}
+            customClass="p-4 sm:p-0 text-primary"
+          ></Slides>
+        ) : null}
         {similarMovie?.length > 0 ? (
           <Slides
-            h1={"Similar"}
+            h1={"Suggestion"}
             similarData={similarMovie}
             customClass="p-4 sm:p-0 text-primary"
+            clickedMovie={(movie) => setClicked(movie)}
           ></Slides>
         ) : null}
         <Footer></Footer>

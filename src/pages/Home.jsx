@@ -4,6 +4,7 @@ import Slides from "../Components/Slides";
 import Footer from "../Components/Footer";
 import SideBar from "../Components/SideBar";
 import InputField from "../Components/InputField";
+import { useEffect } from "react";
 
 function Home({
   movieData,
@@ -12,6 +13,9 @@ function Home({
   topRatedData,
   tvSeriesData,
 }) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <Navbar></Navbar>

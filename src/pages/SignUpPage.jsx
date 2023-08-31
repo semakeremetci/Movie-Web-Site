@@ -19,8 +19,9 @@ function SignUpPage() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
+          localStorage.setItem("userId", user.uid);
           navigate("/Home");
-          console.log("account created successfully");
+          // console.log("account created successfully");
         })
         .catch((error) => {
           const errorCode = error.code;

@@ -8,7 +8,7 @@ function InputField(props) {
   const [searchResults, setSearchResults] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const delayedQuery = useDebounce(searchQuery, 500); // 0.5 saniyelik gecikme
-  const movieNvigate = useNavigate();
+  const movieNavigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -35,7 +35,7 @@ function InputField(props) {
 
   const handleClick = (clickedMovie) => {
     localStorage.setItem("storedData", JSON.stringify(clickedMovie));
-    movieNvigate("/MovieDetails");
+    movieNavigate("/MovieDetails");
   };
 
   const handleFocus = () => {
@@ -51,7 +51,7 @@ function InputField(props) {
     <div
       onFocus={handleFocus}
       onBlur={handleBlur}
-      className=" sticky shadow-lg top-16 py-2 z-50 object-right bg-black sm:mr-16 sm:ml-28 lg:grow lg:bg-transparent lg:fixed lg:top-4 lg:right-20 lg:py-0 lg:w-80"
+      className=" sticky shadow-lg top-16 py-2 z-40 lg:z-[100] object-right bg-black sm:mr-16 sm:ml-28 sm:top-20 lg:grow lg:bg-transparent lg:fixed lg:top-4 lg:right-20 lg:py-0 lg:w-80"
       style={{
         ...(delayedQuery && isFocused
           ? {

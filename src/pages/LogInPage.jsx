@@ -18,6 +18,7 @@ function LogInPage() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
+          localStorage.setItem("userId", user.uid);
           navigateLogin("/Home");
           // console.log("logged in successfully");
         })

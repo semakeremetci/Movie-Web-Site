@@ -12,6 +12,7 @@ const Navbar = () => {
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
+        localStorage.removeItem("userId");
         navigateLogin("/LoginPage");
       })
       .catch((error) => {
@@ -23,10 +24,9 @@ const Navbar = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in
-        const uid = user.uid;
+        // const uid = user.uid;
         setUserEmail(user.email);
         console.log(user.email);
-        localStorage.setItem("userId", uid);
       } else {
         // User is signed out
         navigateLogin("/LoginPage");
@@ -40,7 +40,7 @@ const Navbar = () => {
     if (!localStorage.getItem("userId")) {
       navigateLogin("/LoginPage");
     }
-  }, [userEmail]);
+  }, []);
 
   const changeBackground = () => {
     // console.log(window.scrollY);
@@ -78,7 +78,7 @@ const Navbar = () => {
   return (
     <div
       style={{ backgroundColor: navbar ? "black" : "transparent" }}
-      className="navbar bg-gradient-to-b from-black to-transparent py-2 px-4 sm:pr-16 sm:pl-28 fixed top-0 left-0 right-0 z-50"
+      className="navbar bg-gradient-to-b from-black to-transparent py-2 px-4 sm:pr-16 sm:pl-28 fixed top-0 left-0 right-0 z-[99]"
     >
       <div className="flex-1">
         <NavLink
@@ -96,7 +96,7 @@ const Navbar = () => {
           345Movie
         </NavLink>
       </div>
-      <div className="flex justify-end gap-4 ml-6">
+      <div className="flex justify-end gap-4 ml-6 z-[999]">
         <div className="dropdown dropdown-end">
           <label
             tabIndex={0}
@@ -110,7 +110,7 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-neutral rounded-box w-52 gap-2"
+            className="mt-3  p-2 shadow menu menu-sm dropdown-content bg-neutral rounded-box w-52 gap-2"
           >
             <li>
               <a>Profile</a>
