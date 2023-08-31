@@ -24,13 +24,17 @@ function Slides(props) {
           <figure className="relative">
             <img
               className="bg-contain bg-center"
-              src={`https://image.tmdb.org/t/p/w342${
-                movie.poster_path
-                  ? movie.poster_path
-                  : movie.backdrop_path
-                  ? movie.backdrop_path
-                  : movie.profile_path
-              }`}
+              src={
+                movie.poster_path || movie.backdrop_path || movie.profile_path
+                  ? `https://image.tmdb.org/t/p/w342${
+                      movie.poster_path
+                        ? movie.poster_path
+                        : movie.backdrop_path
+                        ? movie.backdrop_path
+                        : movie.profile_path
+                    }`
+                  : "../Assets/anonim.jpg"
+              }
               alt="poster"
             />
           </figure>

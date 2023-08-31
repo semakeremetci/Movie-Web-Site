@@ -4,12 +4,15 @@ import SideBar from "../Components/SideBar";
 import Slides from "../Components/Slides";
 import Footer from "../Components/Footer";
 import { apiKey } from "../apiConfig";
+import YouTube from "react-youtube";
 
 function MovieDetails() {
   const [storedData, setStoredData] = useState(null);
   const [similarMovie, setSimilarMovie] = useState(null);
   const [cast, setCast] = useState(null);
   const [clicked, setClicked] = useState(null);
+  const [trailer, setTrailer] = useState(null);
+  const [showTrailer, setShowTrailer] = useState(false);
 
   const MOVIE = [
     { genre: "Action", id: 28 },
@@ -61,11 +64,21 @@ function MovieDetails() {
     return true;
   };
 
+  const opts = {
+    height: "390",
+    width: "100%",
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
+
   useEffect(() => {
     let localStoredData = JSON.parse(localStorage.getItem("storedData"));
     setStoredData(localStoredData);
     console.log("storeddata", localStoredData);
     window.scrollTo(0, 0);
+    setShowTrailer(false);
 
     const fetchMovies = async () => {
       try {
@@ -76,16 +89,21 @@ function MovieDetails() {
             ","
           )}&vote_average.gte=7&vote_count.gte=1000`
         );
-
         const creditResponse = await fetch(
           `https://api.themoviedb.org/3/${
             localStoredData.name ? "tv" : "movie"
           }/${localStoredData.id}/credits?api_key=${apiKey}`
         );
+        const appendResponse = await fetch(
+          `https://api.themoviedb.org/3/${
+            localStoredData.name ? "tv" : "movie"
+          }/${localStoredData.id}?api_key=${apiKey}&append_to_response=videos`
+        );
 
         if (similarResponse && creditResponse) {
           const similarData = await similarResponse.json();
           const creditData = await creditResponse.json();
+          const appendData = await appendResponse.json();
 
           const filteredResults = similarData.results.filter((result) => {
             return (
@@ -94,10 +112,18 @@ function MovieDetails() {
             );
           });
 
+          const renderTrailer = appendData.videos.results.find((vid) =>
+            vid.name === "Official Trailer"
+              ? vid.name === "Official Trailer"
+              : vid.name === "Main Trailer"
+          );
+
           setSimilarMovie(filteredResults);
           setCast(creditData.cast.slice(0, 10));
+          setTrailer(renderTrailer);
           console.log("Similar movies:", filteredResults);
           console.log("credit", creditData.cast.slice(0, 10));
+          console.log("appendData", appendData.videos.results);
         } else {
           console.error("Error fetching movies");
         }
@@ -252,13 +278,23 @@ function MovieDetails() {
                       : `No data : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`
                     : "no data"}
                 </p>
-                <button className="btn bg-base-content text-white ">
+                <button
+                  onClick={() => setShowTrailer(true)}
+                  className="btn bg-base-content text-white "
+                >
                   Watch Trailer
                 </button>
               </div>
             </div>
           </div>
         </div>
+        {showTrailer && (
+          <div className="p-8 sm:pr-16 sm:pl-28">
+            {trailer && trailer.key && (
+              <YouTube opts={opts} videoId={trailer.key} />
+            )}
+          </div>
+        )}
         {cast?.length > 0 ? (
           <Slides
             h1={"Cast"}

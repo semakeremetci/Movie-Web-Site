@@ -3,8 +3,19 @@ import { Autoplay, Parallax, Pagination } from "swiper";
 import "swiper/swiper.min.css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
+import { useNavigate } from "react-router-dom";
 
 function HeroSection(props) {
+  const movieNavigate = useNavigate();
+
+  const clickHandler = (clickedMovie) => {
+    console.log(clickedMovie);
+    if (clickedMovie.overview) {
+      localStorage.setItem("storedData", JSON.stringify(clickedMovie));
+      movieNavigate("/MovieDetails");
+      props.clickedMovie(() => clickedMovie);
+    }
+  };
   const createSlide = (movie) => {
     return (
       <SwiperSlide
@@ -30,8 +41,11 @@ function HeroSection(props) {
           </div>
           <div className="text-lg">Now Playing</div>
           <div className=" mt-4" data-swiper-parallax="-100">
-            <button className="button btn bg-base-content normal-case rounded-xl p-2 text-white ">
-              Watch Trailer
+            <button
+              onClick={() => clickHandler(movie)}
+              className="button btn bg-base-content normal-case rounded-xl p-2 text-white "
+            >
+              See Details
             </button>
           </div>
         </div>
