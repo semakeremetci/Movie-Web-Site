@@ -120,12 +120,15 @@ function MovieDetails() {
             );
           });
 
+          // const foundMovie = appendData.videos.results.find(
+          //   (movie) => movie.name.indexOf("Official Trailer") !== -1
+          // );
           const renderTrailer = appendData.videos.results.find((vid) =>
             vid.name === "Official Trailer"
               ? vid.name === "Official Trailer"
               : vid.name === "Main Trailer"
               ? vid.name === "Main Trailer"
-              : vid.name === "Teaser Trailer"
+              : vid.name.indexOf("Trailer") !== -1
           );
 
           setSimilarMovie(filteredResults);
@@ -133,7 +136,7 @@ function MovieDetails() {
           setTrailer(renderTrailer);
           console.log("Similar movies:", filteredResults);
           console.log("credit", creditData.cast.slice(0, 10));
-          console.log("appendData", appendData.videos.results);
+          console.log("appendData", renderTrailer, appendData.videos.results);
         } else {
           console.error("Error fetching movies");
         }
