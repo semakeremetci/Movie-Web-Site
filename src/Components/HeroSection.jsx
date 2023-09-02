@@ -9,11 +9,10 @@ function HeroSection(props) {
   const movieNavigate = useNavigate();
 
   const clickHandler = (clickedMovie) => {
-    console.log(clickedMovie);
+    // console.log(clickedMovie);
     if (clickedMovie.overview) {
       localStorage.setItem("storedData", JSON.stringify(clickedMovie));
       movieNavigate("/MovieDetails");
-      props.clickedMovie(() => clickedMovie);
     }
   };
   const createSlide = (movie) => {

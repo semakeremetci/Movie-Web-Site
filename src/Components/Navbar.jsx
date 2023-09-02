@@ -13,6 +13,7 @@ const Navbar = () => {
     signOut(auth)
       .then(() => {
         localStorage.removeItem("userId");
+        localStorage.removeItem("storedData");
         navigateLogin("/LoginPage");
       })
       .catch((error) => {
@@ -31,6 +32,7 @@ const Navbar = () => {
         // User is signed out
         navigateLogin("/LoginPage");
         localStorage.removeItem("userId");
+        localStorage.removeItem("storedData");
       }
     });
     return () => unsubscribe();
@@ -39,6 +41,7 @@ const Navbar = () => {
   useEffect(() => {
     if (!localStorage.getItem("userId")) {
       navigateLogin("/LoginPage");
+      localStorage.removeItem("storedData");
     }
   }, []);
 
@@ -82,6 +85,7 @@ const Navbar = () => {
     >
       <div className="flex-1">
         <NavLink
+          onClick={() => localStorage.removeItem("storedData")}
           to={"/Home"}
           className="btn normal-case text-xl sm:text-2xl sm:p-0 bg-transparent border-none hover:bg-transparent font-bold text-neutral-content"
         >

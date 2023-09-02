@@ -9,11 +9,13 @@ function Slides(props) {
   const movieNavigate = useNavigate();
 
   const clickHandler = (clickedMovie) => {
-    console.log(clickedMovie);
+    // console.log(clickedMovie);
     if (clickedMovie.overview) {
+      if (JSON.parse(localStorage.getItem("storedData"))) {
+        props.clickedMovie(() => clickedMovie);
+      }
       localStorage.setItem("storedData", JSON.stringify(clickedMovie));
       movieNavigate("/MovieDetails");
-      props.clickedMovie(() => clickedMovie);
     }
   };
 
