@@ -6,6 +6,7 @@ import SignUpPage from "./pages/SignUpPage";
 import Home from "./pages/Home";
 import ForgotPassword from "./pages/forgotPassword";
 import MovieDetails from "./pages/MovieDetails";
+import Categories from "./pages/Categories";
 import {
   nowPlayingMovie,
   discoverMovie,
@@ -73,6 +74,7 @@ function App() {
           }
         />
         <Route path="/MovieDetails" element={<MovieDetails />} />
+        <Route path="/Categories" element={<Categories />} />
       </Routes>
     </>
   );
