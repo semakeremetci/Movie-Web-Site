@@ -23,9 +23,10 @@ function SideBar() {
       </li>
       <li>
         <NavLink
+          onClick={() => localStorage.removeItem("storedData")}
           to={"/Categories"}
           className="tooltip tooltip-right"
-          data-tip="Categories"
+          data-tip="Explore"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

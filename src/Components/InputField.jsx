@@ -36,6 +36,7 @@ function InputField(props) {
   const handleClick = (clickedMovie) => {
     localStorage.setItem("storedData", JSON.stringify(clickedMovie));
     movieNavigate("/MovieDetails");
+    console.log(clickedMovie);
   };
 
   const handleFocus = () => {
@@ -85,7 +86,7 @@ function InputField(props) {
         <input
           type="text"
           placeholder="Search Movies or Series"
-          className="input w-full overflow-none text-primary placeholder:text-primary focus:outline-none bg-transparent border-none px-2 "
+          className="input w-full overflow-none text-primary placeholder:text-primary focus:outline-none bg-transparent border-none px-0 "
           value={searchQuery}
           onChange={(e) => {
             e.preventDefault();
