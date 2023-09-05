@@ -68,7 +68,7 @@ function ForgotPassword() {
                 <span>{resetError}</span>
               </div>
             )}
-            <h2 className="text-center m-4 mb-0 text-lg text-neutral">
+            <h2 className="text-center m-4 mb-0 text-lg text-secondary">
               Trouble logging in?
             </h2>
             <p className="text-primary">

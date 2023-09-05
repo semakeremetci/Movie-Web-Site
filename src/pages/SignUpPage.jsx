@@ -148,7 +148,7 @@ function SignUpPage() {
           </div>
           <div>
             <NavLink
-              className="btn btn-ghost text-neutral text-xl hover:bg-transparent"
+              className="btn btn-ghost text-secondary-content text-xl hover:bg-transparent"
               to="/LoginPage"
             >
               Log In
@@ -162,7 +162,7 @@ function SignUpPage() {
               <h1 className="mb-5 text-6xl font-bold text-primary">
                 Hello there
               </h1>
-              <p className="mb-5 text-lg text-neutral">
+              <p className="mb-5 text-lg text-secondary-content">
                 See best movies and series, watch trailers, make watchlists and
                 more.
               </p>

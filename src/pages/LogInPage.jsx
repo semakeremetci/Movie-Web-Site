@@ -61,7 +61,7 @@ function LogInPage() {
           </div>
           <div>
             <NavLink
-              className="btn btn-ghost text-neutral text-xl hover:bg-transparent"
+              className="btn btn-ghost text-secondary-content text-xl hover:bg-transparent"
               to="/"
             >
               Sign Up

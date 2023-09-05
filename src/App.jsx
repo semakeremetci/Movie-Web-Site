@@ -6,7 +6,7 @@ import SignUpPage from "./pages/SignUpPage";
 import Home from "./pages/Home";
 import ForgotPassword from "./pages/forgotPassword";
 import MovieDetails from "./pages/MovieDetails";
-import Categories from "./pages/Categories";
+import Explore from "./pages/Explore";
 import {
   nowPlayingMovie,
   discoverMovie,
@@ -260,12 +260,9 @@ function App() {
           element={<MovieDetails movieGenres={movieGenres} />}
         />
         <Route
-          path="/Categories"
+          path="/Explore"
           element={
-            <Categories
-              movieGenres={movieGenres}
-              discoverMovies={popularMovies}
-            />
+            <Explore movieGenres={movieGenres} discoverMovies={popularMovies} />
           }
         />
       </Routes>

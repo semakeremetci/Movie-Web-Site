@@ -2,28 +2,38 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import SideBar from "../Components/SideBar";
 import InputField from "../Components/InputField";
+import Slides from "../Components/Slides";
 import Footer from "../Components/Footer";
 import { apiKey } from "../apiConfig";
 
-function Categories(props) {
-  const [filteredMovies, setFilteredMovies] = useState([]);
+function Explore(props) {
+  const [option, setOption] = useState("movie");
+  const [genreId, setGenreId] = useState(null);
+  const [movies, setMovies] = useState([]);
 
-  console.log(props.movieGenres.MOVIE.genre);
+  const scrollUp = () => {
+    window.scrollTo(0, 0);
+  };
+
+  // console.log(props.movieGenres.MOVIE.genre);
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         const moviesResponse = await fetch(
-          `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&with_genres=37&vote_average.gte=7&vote_count.gte=200`
+          `https://api.themoviedb.org/3/discover/${option}?api_key=${apiKey}&with_genres=${genreId}&vote_average.gte=7&vote_count.gte=210`
         );
         const moviesData = await moviesResponse.json();
+        console.log(genreId);
         console.log(moviesData.results);
+        setMovies(moviesData.results);
+        scrollUp();
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
     };
 
     fetchMovies();
-  }, []);
+  }, [genreId]);
 
   return (
     <>
@@ -34,14 +44,27 @@ function Categories(props) {
       </h1>
       <InputField customClass="flex"></InputField>
 
-      <div className="mt-12 mx-4 mb-4 sm:ml-28 sm:mr-16 lg:mt-20">
-        <h1 className="text-3xl  my-4 text-secondary-content">Movies</h1>
+      <div className="mx-4 mt-12 mb-4 sm:ml-28 sm:mr-16 lg:mt-20">
+        {genreId && (
+          <Slides customClass=" mx-0 sm:mr-0 sm:ml-0" movies={movies}></Slides>
+        )}
+        <div className="flex justify-start">
+          <select
+            value={option}
+            onChange={(e) => setOption(e.target.value)}
+            className="select select-bordered mb-4 max-w-xs"
+          >
+            <option value="movie">Movies</option>
+            <option value="tv">TV Shows</option>
+          </select>
+        </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {props.movieGenres
+          {props.movieGenres && option === "movie"
             ? props.movieGenres.MOVIE.map((movie) => (
                 <div
                   key={movie.genre}
                   className="card w-68 bg-base-100 shadow-xl image-full cursor-pointer"
+                  onClick={() => setGenreId(movie.id)}
                 >
                   <figure>
                     <img
@@ -58,14 +81,13 @@ function Categories(props) {
               ))
             : null}
         </div>
-        <h1 className="text-3xl font-bold my-4 text-secondary-content">
-          TV Shows
-        </h1>
+
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {props.movieGenres
+          {props.movieGenres && option === "tv"
             ? props.movieGenres.TV_SHOW.map((movie) => (
                 <div
                   key={movie.genre}
+                  onClick={() => setGenreId(movie.id)}
                   className="card w-68 bg-base-100 shadow-xl image-full cursor-pointer"
                 >
                   <figure>
@@ -89,4 +111,4 @@ function Categories(props) {
   );
 }
 
-export default Categories;
+export default Explore;

@@ -5,12 +5,7 @@ function SideBar() {
   return (
     <ul className="menu justify-center gap-5 p-3 sidebar hidden sm:flex h-screen bg-gradient-to-r from-black to-transparent z-40 fixed top-0 left-0">
       <li>
-        <NavLink
-          onClick={() => localStorage.removeItem("storedData")}
-          to={"/Home"}
-          className="tooltip tooltip-right"
-          data-tip="Home"
-        >
+        <NavLink to={"/Home"} className="tooltip tooltip-right" data-tip="Home">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="1.5em"
@@ -23,8 +18,7 @@ function SideBar() {
       </li>
       <li>
         <NavLink
-          onClick={() => localStorage.removeItem("storedData")}
-          to={"/Categories"}
+          to={"/Explore"}
           className="tooltip tooltip-right"
           data-tip="Explore"
         >

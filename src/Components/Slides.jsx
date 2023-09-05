@@ -9,13 +9,13 @@ function Slides(props) {
   const movieNavigate = useNavigate();
 
   const clickHandler = (clickedMovie) => {
-    // console.log(clickedMovie);
     if (clickedMovie.overview) {
-      if (JSON.parse(localStorage.getItem("storedData"))) {
-        props.clickedMovie(() => clickedMovie);
-      }
       localStorage.setItem("storedData", JSON.stringify(clickedMovie));
+
       movieNavigate("/MovieDetails");
+      props.clickedMovie(() => clickedMovie);
+      // console.log(clickedMovie);
+      // console.log(JSON.parse(localStorage.getItem("storedData")));
     }
   };
 
@@ -84,6 +84,7 @@ function Slides(props) {
               spaceBetween: 30,
             },
           }}
+          loop={true}
           modules={[Navigation, Parallax]}
           navigation
           parallax={true}
@@ -120,6 +121,12 @@ function Slides(props) {
           )}
 
           {props.cast ? props.cast.map((movie) => createSlide(movie)) : <p></p>}
+
+          {props.movies ? (
+            props.movies.map((movie) => createSlide(movie))
+          ) : (
+            <p></p>
+          )}
         </Swiper>
       </div>
     </div>

@@ -225,7 +225,7 @@ function MovieDetails(props) {
           <div className="hero bg-base-100">
             <div className="hero-content flex-col-reverse lg:flex-row-reverse p-0 ">
               <img
-                src={`https://image.tmdb.org/t/p/w342${
+                src={`https://image.tmdb.org/t/p/w500${
                   storedData ? (
                     storedData.poster_path ? (
                       storedData.poster_path
