@@ -22,10 +22,26 @@ function Home({
       <SideBar></SideBar>
       <HeroSection movieData={movieData}></HeroSection>
       <InputField customClass="flex"></InputField>
-      <Slides popularData={popularData} h1={"Popular"}></Slides>
-      <Slides upComingData={upComingData} h1={"Up Coming"}></Slides>
-      <Slides topRatedData={topRatedData} h1={"Top Rated"}></Slides>
-      <Slides tvSeriesData={tvSeriesData} h1={"Tv Series"}></Slides>
+      <Slides
+        clickedMovie={null}
+        popularData={popularData}
+        h1={"Popular"}
+      ></Slides>
+      <Slides
+        clickedMovie={null}
+        upComingData={upComingData}
+        h1={"Up Coming"}
+      ></Slides>
+      <Slides
+        clickedMovie={null}
+        topRatedData={topRatedData}
+        h1={"Top Rated"}
+      ></Slides>
+      <Slides
+        clickedMovie={null}
+        tvSeriesData={tvSeriesData}
+        h1={"Tv Series"}
+      ></Slides>
       <Footer></Footer>
     </div>
   );

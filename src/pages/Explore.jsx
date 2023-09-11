@@ -5,8 +5,9 @@ import InputField from "../Components/InputField";
 import Slides from "../Components/Slides";
 import Footer from "../Components/Footer";
 import { apiKey } from "../apiConfig";
+import { movieGenres } from "../Assets/movieGenre";
 
-function Explore(props) {
+function Explore() {
   const [option, setOption] = useState("movie");
   const [genreId, setGenreId] = useState(null);
   const [movies, setMovies] = useState([]);
@@ -15,7 +16,6 @@ function Explore(props) {
     window.scrollTo(0, 0);
   };
 
-  // console.log(props.movieGenres.MOVIE.genre);
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -23,8 +23,6 @@ function Explore(props) {
           `https://api.themoviedb.org/3/discover/${option}?api_key=${apiKey}&with_genres=${genreId}&vote_average.gte=7&vote_count.gte=210`
         );
         const moviesData = await moviesResponse.json();
-        console.log(genreId);
-        console.log(moviesData.results);
         setMovies(moviesData.results);
         scrollUp();
       } catch (error) {
@@ -44,10 +42,11 @@ function Explore(props) {
       </h1>
       <InputField customClass="flex"></InputField>
 
-      <div className="mx-4 mt-12 mb-4 sm:ml-28 sm:mr-16 lg:mt-20">
-        {genreId && (
-          <Slides customClass=" mx-0 sm:mr-0 sm:ml-0" movies={movies}></Slides>
-        )}
+      {genreId && <Slides customClass="mt-12" movies={movies}></Slides>}
+      <div
+        className="mx-4 mb-4 sm:ml-28 sm:mr-16 "
+        style={{ marginTop: !genreId && "5rem" }}
+      >
         <div className="flex justify-start">
           <select
             value={option}
@@ -59,8 +58,8 @@ function Explore(props) {
           </select>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {props.movieGenres && option === "movie"
-            ? props.movieGenres.MOVIE.map((movie) => (
+          {movieGenres && option === "movie"
+            ? movieGenres[0].map((movie) => (
                 <div
                   key={movie.genre}
                   className="card w-68 bg-base-100 shadow-xl image-full cursor-pointer"
@@ -83,8 +82,8 @@ function Explore(props) {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {props.movieGenres && option === "tv"
-            ? props.movieGenres.TV_SHOW.map((movie) => (
+          {movieGenres && option === "tv"
+            ? movieGenres[1].map((movie) => (
                 <div
                   key={movie.genre}
                   onClick={() => setGenreId(movie.id)}

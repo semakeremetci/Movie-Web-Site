@@ -1,18 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Navbar from "../Components/Navbar";
 import SideBar from "../Components/SideBar";
 import Slides from "../Components/Slides";
 import Footer from "../Components/Footer";
 import { apiKey } from "../apiConfig";
 import YouTube from "react-youtube";
+import MovieCard from "../Components/MovieCard";
+import { GlobalContext } from "../Context/GlobalState";
 
-function MovieDetails(props) {
+function MovieDetails() {
   const [storedData, setStoredData] = useState(null);
   const [similarMovie, setSimilarMovie] = useState(null);
   const [cast, setCast] = useState(null);
   const [clicked, setClicked] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
+  const [addWatchlist, setAddWatchlist] = useState(false);
+  const [addWatched, setAddWatched] = useState(false);
+  const { addMovieToWatchlist, watchlist } = useContext(GlobalContext);
+
+  let storedMovie = watchlist.find(
+    (o) => o.id === JSON.parse(localStorage.getItem("storedData")).id
+  );
+  const watchlistDisabled = storedMovie ? true : false;
 
   // İki arrayin elemanlarını karşılaştırıp aynıysa true döndüren fonk.
   const arraysEqual = (a, b) => {
@@ -97,8 +107,6 @@ function MovieDetails(props) {
           // console.log("Similar movies:", filteredResults);
           // console.log("credit", creditData.cast.slice(0, 10));
           // console.log("appendData", renderTrailer, appendData.videos.results);
-        } else {
-          console.error("Error fetching movies");
         }
       } catch (error) {
         console.error("Error fetching movies:", error);
@@ -117,110 +125,59 @@ function MovieDetails(props) {
       <Navbar></Navbar>
       <SideBar></SideBar>
       <div className="section bg-base-100 h-screen relative">
-        <div className="h-1/2 lg:h-full">
-          <img
-            className="h-full w-full object-cover object-top"
-            src={`https://image.tmdb.org/t/p/original${
-              storedData ? (
-                storedData.backdrop_path ? (
-                  storedData.backdrop_path
-                ) : (
-                  storedData.poster_path
-                )
+        <MovieCard
+          backdrop_path={
+            storedData ? (
+              storedData.backdrop_path ? (
+                storedData.backdrop_path
               ) : (
-                <p>no picture</p>
+                storedData.poster_path
               )
-            }`}
-            alt=""
-          />
-          <div className="hero absolute h-1/2 lg:h-full top-0 lg:bottom-0 bg-gradient-to-t from-black to-transparent px-4 sm:pr-16 sm:pl-28 justify-start">
-            <div className="hero-content absolute bottom-0 left-0 flex-col lg:flex-row-reverse px-0 pb-8">
-              <div className="font-bold text-primary text-sm lg:text-lg">
-                <h1 className="text-xl lg:text-5xl ">
-                  {storedData ? (
-                    storedData.title ? (
-                      storedData.title
-                    ) : (
-                      storedData.name
-                    )
-                  ) : (
-                    <p>no data</p>
-                  )}
-                </h1>
-                <p className="pt-4 flex gap-2">
-                  {storedData
-                    ? storedData.vote_average
-                      ? storedData.vote_average.toFixed(1)
-                      : "no data"
-                    : "no data"}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="0.8em"
-                    viewBox="0 0 576 512"
-                    fill="white"
-                    className="mt-1.5"
-                  >
-                    <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
-                  </svg>
-                  {storedData
-                    ? storedData.vote_count
-                      ? `(${storedData.vote_count}) Votes`
-                      : "no data"
-                    : "no data"}
-                </p>
-                <p className="py-2">
-                  {storedData
-                    ? storedData.origin_country
-                      ? `Origin: ${storedData.origin_country} `
-                      : `Language: ${storedData.original_language.toUpperCase()} `
-                    : "no data"}
-                </p>
-                <p className="pb-2">
-                  {storedData
-                    ? storedData.release_date
-                      ? `Release Date : ${storedData.release_date}`
-                      : `Release Date : ${storedData.first_air_date}`
-                    : "no data"}
-                </p>
-                <p className="pb-2">
-                  {storedData ? (storedData.title ? `MOVIE` : `TV`) : "no data"}
-                </p>
-
-                <p className="pb-2">
-                  {storedData
-                    ? storedData.title
-                      ? props.movieGenres.MOVIE.map((genre) => {
-                          if (storedData.genre_ids.includes(genre.id)) {
-                            return (
-                              <span
-                                className="badge badge-outline m-1 ml-0 p-2"
-                                key={genre.id}
-                              >
-                                {genre.genre}
-                              </span>
-                            );
-                          }
-                          return null;
-                        })
-                      : props.movieGenres.TV_SHOW.map((genre) => {
-                          if (storedData.genre_ids.includes(genre.id)) {
-                            return (
-                              <span
-                                className="badge badge-outline m-1 ml-0 p-2"
-                                key={genre.id}
-                              >
-                                {genre.genre}
-                              </span>
-                            );
-                          }
-                          return null;
-                        })
-                    : "no data"}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+            ) : (
+              <p>no picture</p>
+            )
+          }
+          title={
+            storedData ? (
+              storedData.title ? (
+                storedData.title
+              ) : (
+                storedData.name
+              )
+            ) : (
+              <p>no data</p>
+            )
+          }
+          voteAverage={
+            storedData
+              ? storedData.vote_average
+                ? storedData.vote_average.toFixed(1)
+                : "no data"
+              : "no data"
+          }
+          voteCount={
+            storedData
+              ? storedData.vote_count
+                ? `(${storedData.vote_count}) Votes`
+                : "no data"
+              : "no data"
+          }
+          origin={
+            storedData
+              ? storedData.origin_country
+                ? `Origin: ${storedData.origin_country} `
+                : `Language: ${storedData.original_language.toUpperCase()} `
+              : "no data"
+          }
+          releaseDate={
+            storedData
+              ? storedData.release_date
+                ? `Release Date : ${storedData.release_date}`
+                : `Release Date : ${storedData.first_air_date}`
+              : "no data"
+          }
+          type={storedData ? (storedData.title ? `MOVIE` : `TV`) : "no data"}
+        ></MovieCard>
         <div className="overview p-4 sm:pr-16 sm:pl-28 flex justify-start">
           <div className="hero bg-base-100">
             <div className="hero-content flex-col-reverse lg:flex-row-reverse p-0 ">
@@ -247,10 +204,51 @@ function MovieDetails(props) {
                       : `No data : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`
                     : "no data"}
                 </p>
+
+                <p>
+                  <button
+                    onClick={() => {
+                      addMovieToWatchlist(storedData);
+                    }}
+                    disabled={watchlistDisabled}
+                    className="btn btn-primary normal-case text-secondary disabled:bg-primary disabled:text-secondary"
+                  >
+                    Add Watchlist
+                    {watchlistDisabled && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="1em"
+                        viewBox="0 0 512 512"
+                        fill="red"
+                      >
+                        <path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z" />
+                      </svg>
+                    )}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setAddWatched(true);
+                      setAddWatchlist(false);
+                    }}
+                    className="btn btn-primary normal-case text-secondary ml-2 "
+                  >
+                    Watched
+                    {addWatched && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="1em"
+                        viewBox="0 0 512 512"
+                        fill="red"
+                      >
+                        <path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z" />
+                      </svg>
+                    )}
+                  </button>
+                </p>
                 {trailer && (
                   <button
                     onClick={scrollToAndShow}
-                    className="btn btn-secondary text-white "
+                    className="btn btn-secondary normal-case text-white mt-2"
                   >
                     Watch Trailer
                   </button>
@@ -259,7 +257,7 @@ function MovieDetails(props) {
             </div>
           </div>
         </div>
-        <div className="" id="scrollToThisDiv">
+        <div id="scrollToThisDiv">
           {showTrailer && (
             <div className="p-4 sm:pr-16 sm:pl-28">
               {trailer && trailer.key && (

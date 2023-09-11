@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Parallax } from "swiper";
+import { Navigation, Parallax, Keyboard } from "swiper";
 import "swiper/swiper.min.css";
 import "swiper/css/navigation";
 
@@ -84,46 +84,67 @@ function Slides(props) {
               spaceBetween: 30,
             },
           }}
-          loop={true}
-          modules={[Navigation, Parallax]}
+          keyboard={{
+            enabled: true,
+          }}
+          rewind={true}
+          modules={[Navigation, Parallax, Keyboard]}
           navigation
           parallax={true}
           spaceBetween={20}
           slidesPerView={2}
         >
           {props.upComingData ? (
-            props.upComingData.map((movie) => createSlide(movie))
+            props.upComingData.map((movie) =>
+              movie.poster_path ? createSlide(movie) : null
+            )
           ) : (
             <p></p>
           )}
 
           {props.popularData ? (
-            props.popularData.map((movie) => createSlide(movie))
+            props.popularData.map((movie) =>
+              movie.poster_path ? createSlide(movie) : null
+            )
           ) : (
             <p></p>
           )}
 
           {props.topRatedData ? (
-            props.topRatedData.map((movie) => createSlide(movie))
+            props.topRatedData.map((movie) =>
+              movie.poster_path ? createSlide(movie) : null
+            )
           ) : (
             <p></p>
           )}
 
           {props.tvSeriesData ? (
-            props.tvSeriesData.map((movie) => createSlide(movie))
+            props.tvSeriesData.map((movie) =>
+              movie.poster_path ? createSlide(movie) : null
+            )
           ) : (
             <p></p>
           )}
           {props.similarData ? (
-            props.similarData.map((movie) => createSlide(movie))
+            props.similarData.map((movie) =>
+              movie.poster_path ? createSlide(movie) : null
+            )
           ) : (
             <p></p>
           )}
 
-          {props.cast ? props.cast.map((movie) => createSlide(movie)) : <p></p>}
+          {props.cast ? (
+            props.cast.map((movie) =>
+              movie.profile_path ? createSlide(movie) : null
+            )
+          ) : (
+            <p></p>
+          )}
 
           {props.movies ? (
-            props.movies.map((movie) => createSlide(movie))
+            props.movies.map((movie) =>
+              movie.poster_path ? createSlide(movie) : null
+            )
           ) : (
             <p></p>
           )}

@@ -19,7 +19,7 @@ function InputField(props) {
           const moviesAndTVShows = searchData.results.filter(
             (item) => item.media_type === "movie" || item.media_type === "tv"
           );
-          const sortedSearch = moviesAndTVShows.sort(
+          const sortedSearch = searchData.results.sort(
             (a, b) => b.vote_count - a.vote_count
           );
           // console.log(sortedSearch);
@@ -36,7 +36,7 @@ function InputField(props) {
   const handleClick = (clickedMovie) => {
     localStorage.setItem("storedData", JSON.stringify(clickedMovie));
     movieNavigate("/MovieDetails");
-    console.log(clickedMovie);
+    // console.log(clickedMovie);
   };
 
   const handleFocus = () => {
