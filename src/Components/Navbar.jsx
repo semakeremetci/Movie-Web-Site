@@ -130,7 +130,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={"/Watclist"} className="flex">
+              <NavLink to={"/Watchlist"} className="flex">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="1.6em"
