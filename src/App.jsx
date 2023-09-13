@@ -5,7 +5,7 @@ import LogInPage from "./Pages/LogInPage";
 import SignUpPage from "./Pages/SignUpPage";
 import Home from "./Pages/Home";
 import ForgotPassword from "./Pages/forgotPassword";
-import MovieDetails from "./Pages/MovieDetails";
+import MovieDetails from "./pages/MovieDetails";
 import Explore from "./Pages/Explore";
 import {
   nowPlayingMovie,
@@ -16,6 +16,7 @@ import {
 } from "./apiConfig.js";
 import { GlobalProvider } from "./Context/GlobalState";
 import Watchlist from "./Pages/Watchlist";
+import Watched from "./Pages/Watched";
 
 function App() {
   const [movieList, setMovieList] = useState([]);
@@ -78,6 +79,7 @@ function App() {
         <Route path="/MovieDetails" element={<MovieDetails />} />
         <Route path="/Explore" element={<Explore />} />
         <Route path="/Watchlist" element={<Watchlist />} />
+        <Route path="/Watched" element={<Watched />} />
       </Routes>
     </GlobalProvider>
   );

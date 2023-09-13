@@ -19,7 +19,7 @@ function InputField(props) {
           const moviesAndTVShows = searchData.results.filter(
             (item) => item.media_type === "movie" || item.media_type === "tv"
           );
-          const sortedSearch = searchData.results.sort(
+          const sortedSearch = moviesAndTVShows.sort(
             (a, b) => b.vote_count - a.vote_count
           );
           // console.log(sortedSearch);

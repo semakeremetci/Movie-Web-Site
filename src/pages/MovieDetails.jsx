@@ -15,14 +15,19 @@ function MovieDetails() {
   const [clicked, setClicked] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
-  const [addWatchlist, setAddWatchlist] = useState(false);
-  const [addWatched, setAddWatched] = useState(false);
   const { addMovieToWatchlist, watchlist } = useContext(GlobalContext);
+  const { addMovieToWatched, watched } = useContext(GlobalContext);
+  const { removeMovieFromWatchlist, removeMovieFromWatched } =
+    useContext(GlobalContext);
 
   let storedMovie = watchlist.find(
     (o) => o.id === JSON.parse(localStorage.getItem("storedData")).id
   );
   const watchlistDisabled = storedMovie ? true : false;
+  let watchedMovie = watched.find(
+    (o) => o.id === JSON.parse(localStorage.getItem("storedData")).id
+  );
+  const watchedDisabled = watchedMovie ? true : false;
 
   // İki arrayin elemanlarını karşılaştırıp aynıysa true döndüren fonk.
   const arraysEqual = (a, b) => {
@@ -87,7 +92,6 @@ function MovieDetails() {
               arraysEqual(result.genre_ids, localStoredData.genre_ids)
             );
           });
-
           const renderTrailer = appendData.videos.results.find((vid) =>
             vid.name === "Main Trailer"
               ? vid.name === "Main Trailer"
@@ -112,12 +116,9 @@ function MovieDetails() {
         console.error("Error fetching movies:", error);
       }
     };
-
     if (localStoredData) {
       fetchMovies();
     }
-
-    return () => fetchMovies();
   }, [clicked]);
 
   return (
@@ -209,6 +210,7 @@ function MovieDetails() {
                   <button
                     onClick={() => {
                       addMovieToWatchlist(storedData);
+                      removeMovieFromWatched(storedData.id);
                     }}
                     disabled={watchlistDisabled}
                     className="btn btn-primary normal-case text-secondary disabled:bg-primary disabled:text-secondary"
@@ -227,13 +229,14 @@ function MovieDetails() {
                   </button>
                   <button
                     onClick={() => {
-                      setAddWatched(true);
-                      setAddWatchlist(false);
+                      addMovieToWatched(storedData);
+                      removeMovieFromWatchlist(storedData.id);
                     }}
-                    className="btn btn-primary normal-case text-secondary ml-2 "
+                    disabled={watchedDisabled}
+                    className="btn btn-primary normal-case text-secondary ml-2 disabled:bg-primary disabled:text-secondary"
                   >
                     Watched
-                    {addWatched && (
+                    {watchedDisabled && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         height="1em"
